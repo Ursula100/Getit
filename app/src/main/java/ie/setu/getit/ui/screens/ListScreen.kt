@@ -1,21 +1,24 @@
 package ie.setu.getit.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.compose.ui.Modifier
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.ui.unit.dp
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import ie.setu.getit.data.ItemModel
+import ie.setu.getit.data.fakeListings
 import ie.setu.getit.ui.component.list.DescriptionInput
 import ie.setu.getit.ui.component.list.ListButton
 import ie.setu.getit.ui.component.list.LocationInput
@@ -43,39 +46,35 @@ fun ListScreen(modifier: Modifier = Modifier,
             ),
             verticalArrangement = Arrangement.spacedBy(30.dp),
         ) {
-            ProgressBar(
-                modifier = modifier,
-                totalListed = totalDonated)
-            MessageInput(
-                modifier = modifier,
-                onMessageChange = { paymentMessage = it }
-            )
-            NameInput (
+            NameInput(
                 modifier = modifier,
                 onNameChange = { name = it }
             )
-            DescriptionInput (
+            DescriptionInput(
                 modifier = modifier,
                 onDescriptionChange = { description = it }
             )
-            PriceInput (
+            PriceInput(
                 modifier = modifier,
                 onPriceChange = { price = it }
             )
-            LocationInput (
+            LocationInput(
                 modifier = modifier,
                 onLocationChange = { location = it }
             )
-            ListButton (
-                modifier = modifier,
-                item = ItemModel(name = name,
-                    description = description,
-                    price = price,
-                    location = location),
-                listings = listings,
-                onTotalListedChange = { totalListed = it }
-            )
+            Spacer(modifier.height(height = 16.dp))
         }
+        ListButton(
+            modifier = modifier.align(Alignment.CenterHorizontally),
+            item = ItemModel(
+                name = name,
+                description = description,
+                price = price,
+                location = location
+            ),
+            listings = listings,
+            onTotalListedChange = { totalListed = it }
+        )
     }
 }
 
