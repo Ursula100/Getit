@@ -1,6 +1,7 @@
 package ie.setu.getit.ui.screens
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -26,15 +27,16 @@ import ie.setu.getit.ui.theme.GetitTheme
 @Composable
 fun ListingScreen (
     modifier: Modifier = Modifier,
-    listings: SnapshotStateList<ItemModel>
+    listings: SnapshotStateList<ItemModel>,
+    paddingValues: PaddingValues
 ){
     Column {
         Column(
             modifier = modifier.padding(
-                top = 72.dp,
+                top = paddingValues.calculateTopPadding() + 14.dp, // Extra space
                 start = 24.dp,
                 end = 24.dp
-            ),
+            )
         ) {
             if(listings.isNotEmpty()) {
                 ListingsList(listings = listings)
@@ -42,7 +44,7 @@ fun ListingScreen (
             else {
                 Centre(Modifier.fillMaxSize()){
                     Text(
-                        color = MaterialTheme.colorScheme.secondary,
+                        color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold,
                         fontSize = 30.sp,
                         lineHeight = 34.sp,
@@ -59,9 +61,10 @@ fun ListingScreen (
 @Composable
 fun ListingScreenPreview(){
     GetitTheme {
-        ListingsList(
+        ListingScreen(
             modifier = Modifier,
-            listings = fakeListings.toMutableStateList()
+            listings = fakeListings.toMutableStateList(),
+            paddingValues = PaddingValues()
         )
     }
 }

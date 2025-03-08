@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
@@ -95,10 +96,10 @@ fun GetitApp(modifier: Modifier = Modifier) {
                 }
             )
         },
-        content = {
+        content = { paddingValues -> //Capture scaffold padding
             when(selectedScreenOption){
-                ScreenOptions.Listings -> ListingScreen(modifier =  modifier, listings = listings)
-                ScreenOptions.ListItem -> ListItemScreen(modifier =  modifier, listings = listings)
+                ScreenOptions.Listings -> ListingScreen(modifier =  modifier, listings = listings, paddingValues = paddingValues)
+                ScreenOptions.ListItem -> ListItemScreen(modifier =  modifier, listings = listings, paddingValues = paddingValues)
                 else -> {}
             }
         },

@@ -2,6 +2,7 @@ package ie.setu.getit.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -27,8 +28,10 @@ import ie.setu.getit.ui.component.listItem.PriceInput
 import ie.setu.getit.ui.theme.GetitTheme
 
 @Composable
-fun ListItemScreen(modifier: Modifier = Modifier,
-                   listings: SnapshotStateList<ItemModel>
+fun ListItemScreen(
+    modifier: Modifier = Modifier,
+    listings: SnapshotStateList<ItemModel>,
+    paddingValues: PaddingValues
 ) {
 
     var totalListed by remember { mutableIntStateOf(0) }
@@ -40,7 +43,7 @@ fun ListItemScreen(modifier: Modifier = Modifier,
     Column {
         Column(
             modifier = modifier.padding(
-                top = 72.dp,
+                top = paddingValues.calculateTopPadding() + 30.dp, // Extra space
                 start = 24.dp,
                 end = 24.dp
             ),
@@ -62,7 +65,7 @@ fun ListItemScreen(modifier: Modifier = Modifier,
                 modifier = modifier,
                 onLocationChange = { location = it }
             )
-            Spacer(modifier.height(height = 16.dp))
+            Spacer(modifier.height(height = 24.dp))
         }
         ListButton(
             modifier = modifier.align(Alignment.CenterHorizontally),
@@ -82,7 +85,10 @@ fun ListItemScreen(modifier: Modifier = Modifier,
 @Composable
 fun ListScreenPreview() {
     GetitTheme {
-        ListItemScreen( modifier = Modifier,
-            listings = fakeListings.toMutableStateList())
+        ListItemScreen(
+            modifier = Modifier,
+            listings = fakeListings.toMutableStateList(),
+            paddingValues = PaddingValues()
+        )
     }
 }

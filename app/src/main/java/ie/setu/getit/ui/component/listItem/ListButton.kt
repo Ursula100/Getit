@@ -44,7 +44,7 @@ fun ListButton(
             Timber.i("New Listing info : $item")
             Timber.i("All Listings ${listings.toList()}")
         },
-        elevation = ButtonDefaults.buttonElevation(24.dp)
+        elevation = ButtonDefaults.buttonElevation(16.dp)
     ) {
         /*Icon(Icons.Default.Add, contentDescription = "List")
         Spacer(modifier.width(width = 4.dp))*/
@@ -56,7 +56,7 @@ fun ListButton(
             color = Color.White
         )
     }
-    Spacer(modifier.height(height = 16.dp))
+    Spacer(modifier.height(height = 36.dp))
     Text(
         modifier = modifier,
         fontWeight = FontWeight.Bold,
