@@ -1,5 +1,6 @@
 package ie.setu.getit.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -26,6 +27,7 @@ import ie.setu.getit.ui.component.listItem.LocationInput
 import ie.setu.getit.ui.component.listItem.NameInput
 import ie.setu.getit.ui.component.listItem.PriceInput
 import ie.setu.getit.ui.theme.GetitTheme
+import timber.log.Timber
 
 @Composable
 fun ListItemScreen(
@@ -37,8 +39,62 @@ fun ListItemScreen(
     var totalListed by remember { mutableIntStateOf(0) }
     var name by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
-    var price by remember { mutableIntStateOf(10) }
+    var price by remember { mutableIntStateOf(0) }
     var location by remember { mutableStateOf("") }
+
+    //Field check - ensure not empty (not yet taking into consideration non int values for price field and spaces)
+    var isNameError by remember { mutableStateOf(false) }
+    var isDescError by remember { mutableStateOf(false) }
+    var isPriceError by remember { mutableStateOf(false) }
+    var isLocationError by remember { mutableStateOf(false) }
+
+    //Button check - enabled state
+    val isButtonEnabled = !isNameError && !isDescError && !isPriceError && !isLocationError
+
+    // Handle input changes and error state updates
+    fun onNameChange(newName: String) {
+        name = newName
+        isNameError = newName.isBlank()
+    }
+
+    fun onDescriptionChange(newDescription: String) {
+        description = newDescription
+        isDescError = newDescription.isBlank()
+    }
+
+    fun onPriceChange(newPrice: String) {
+        price = newPrice.toInt()
+        isPriceError = newPrice.toInt() == 0 && newPrice.isBlank()
+    }
+
+    fun onLocationChange(newLocation: String) {
+        location = newLocation
+        isLocationError = newLocation.isBlank()
+    }
+
+    val onList: () -> Unit = {
+        isNameError = name.isBlank()
+        isDescError = description.isBlank()
+        isPriceError = price == 0
+        isLocationError = location.isBlank()
+
+        if (isNameError || isDescError || isPriceError || isLocationError) {
+            // Show feedback or an alert here
+
+        } else {
+            // Proceed with your action (e.g., adding the item)
+            val newItem = ItemModel(
+                name = name,
+                description = description,
+                price = price,
+                location = location
+            )
+            listings.add(newItem)
+            Timber.i("New Listing info : $newItem")
+            totalListed+=1
+            Timber.i("All Listings ${listings.toList()}")
+        }
+    }
 
     Column {
         Column(
@@ -51,32 +107,35 @@ fun ListItemScreen(
         ) {
             NameInput(
                 modifier = modifier,
-                onNameChange = { name = it }
+                name = name,
+                onNameChange = { onNameChange(it) },
+                isError = isNameError
             )
             DescriptionInput(
                 modifier = modifier,
-                onDescriptionChange = { description = it }
+                description = description,
+                onDescriptionChange = { onDescriptionChange(it)},
+                isError = isDescError
             )
             PriceInput(
                 modifier = modifier,
-                onPriceChange = { price = it }
+                price = price.toString(),
+                onPriceChange = { onPriceChange(it.toString())},
+                isError = isPriceError
             )
             LocationInput(
                 modifier = modifier,
-                onLocationChange = { location = it }
+                location = location,
+                onLocationChange = { onLocationChange(it) },
+                isError = isLocationError
             )
             Spacer(modifier.height(height = 24.dp))
         }
         ListButton(
             modifier = modifier.align(Alignment.CenterHorizontally),
-            item = ItemModel(
-                name = name,
-                description = description,
-                price = price,
-                location = location
-            ),
-            listings = listings,
-            onTotalListedChange = { totalListed = it }
+            enabled = isButtonEnabled,
+            onClick = onList,
+            totalListed = totalListed
         )
     }
 }

@@ -6,10 +6,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,10 +15,10 @@ import ie.setu.getit.ui.theme.GetitTheme
 @Composable
 fun PriceInput(
     modifier: Modifier = Modifier,
-    onPriceChange: (Int) -> Unit
+    price: String,
+    onPriceChange: (Int) -> Unit,
+    isError: Boolean
 ) {
-
-    var price by remember { mutableStateOf("") }
 
     OutlinedTextField(
         colors = OutlinedTextFieldDefaults.colors(
@@ -33,11 +29,11 @@ fun PriceInput(
         maxLines = 1,
         value = price,
         onValueChange = {
-            price = it
-            onPriceChange(price.toInt())
+            onPriceChange(it.toInt())
         },
         modifier = modifier.fillMaxWidth(),
         label = { Text(stringResource(R.string.enter_price)) },
+        isError = isError
     )
 }
 
@@ -47,6 +43,8 @@ fun PricePreview() {
     GetitTheme {
         PriceInput(
             Modifier,
-            onPriceChange = {})
+            price = "100",
+            onPriceChange = {},
+            isError = false)
     }
 }

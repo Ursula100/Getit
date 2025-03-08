@@ -6,10 +6,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,10 +15,10 @@ import ie.setu.getit.ui.theme.GetitTheme
 @Composable
 fun NameInput(
     modifier: Modifier = Modifier,
-    onNameChange: (String) -> Unit
+    name: String,
+    onNameChange: (String) -> Unit,
+    isError: Boolean
 ) {
-
-    var name by remember { mutableStateOf("") }
 
     OutlinedTextField(
         colors = OutlinedTextFieldDefaults.colors(
@@ -33,11 +29,11 @@ fun NameInput(
         maxLines = 1,
         value = name,
         onValueChange = {
-            name = it
-            onNameChange(name)
+            onNameChange(it)
         },
         modifier = modifier.fillMaxWidth(),
         label = { Text(stringResource(R.string.enter_name)) },
+        isError = isError,
         supportingText = { Text(stringResource(R.string.enter_name_support_text)) }
     )
 }
@@ -48,6 +44,8 @@ fun NamePreview() {
     GetitTheme {
         NameInput(
             Modifier,
-            onNameChange = {})
+            name = "Table knife set",
+            onNameChange = {},
+            isError = false)
     }
 }

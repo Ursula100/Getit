@@ -6,10 +6,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,10 +15,10 @@ import ie.setu.getit.ui.theme.GetitTheme
 @Composable
 fun DescriptionInput(
     modifier: Modifier = Modifier,
-    onDescriptionChange: (String) -> Unit
+    description: String,
+    onDescriptionChange: (String) -> Unit,
+    isError: Boolean
 ) {
-
-    var desc by remember { mutableStateOf("") }
 
     OutlinedTextField(
         colors = OutlinedTextFieldDefaults.colors(
@@ -31,13 +27,13 @@ fun DescriptionInput(
             unfocusedBorderColor = MaterialTheme.colorScheme.secondary,
         ),
         maxLines = 3,
-        value = desc,
+        value = description,
         onValueChange = {
-            desc = it
-            onDescriptionChange(desc)
+            onDescriptionChange(it)
         },
         modifier = modifier.fillMaxWidth(),
         label = { Text(stringResource(R.string.enter_desc)) },
+        isError = isError,
         supportingText = { Text(stringResource(R.string.enter_desc_support_text)) }
     )
 }
@@ -48,6 +44,8 @@ fun DescriptionPreview() {
     GetitTheme {
         DescriptionInput(
             Modifier,
-            onDescriptionChange = {})
+            description = "Antique Butcher knife set",
+            onDescriptionChange = {},
+            isError = false )
     }
 }

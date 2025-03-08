@@ -19,10 +19,10 @@ import ie.setu.getit.ui.theme.GetitTheme
 @Composable
 fun LocationInput(
     modifier: Modifier = Modifier,
-    onLocationChange: (String) -> Unit
+    location: String,
+    onLocationChange: (String) -> Unit,
+    isError: Boolean
 ) {
-
-    var location by remember { mutableStateOf("") }
 
     OutlinedTextField(
         colors = OutlinedTextFieldDefaults.colors(
@@ -33,11 +33,11 @@ fun LocationInput(
         maxLines = 1,
         value = location,
         onValueChange = {
-            location = it
-            onLocationChange(location)
+            onLocationChange(it)
         },
         modifier = modifier.fillMaxWidth(),
         label = { Text(stringResource(R.string.enter_location)) },
+        isError = isError
     )
 }
 
@@ -47,6 +47,8 @@ fun LocationPreview() {
     GetitTheme {
         LocationInput(
             Modifier,
-            onLocationChange = {})
+            location = "Waterford, Eire",
+            onLocationChange = {},
+            isError = false)
     }
 }
