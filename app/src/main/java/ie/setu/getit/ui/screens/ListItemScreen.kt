@@ -19,16 +19,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ie.setu.getit.data.ItemModel
 import ie.setu.getit.data.fakeListings
-import ie.setu.getit.ui.component.list.DescriptionInput
-import ie.setu.getit.ui.component.list.ListButton
-import ie.setu.getit.ui.component.list.LocationInput
-import ie.setu.getit.ui.component.list.NameInput
-import ie.setu.getit.ui.component.list.PriceInput
+import ie.setu.getit.ui.component.listItem.DescriptionInput
+import ie.setu.getit.ui.component.listItem.ListButton
+import ie.setu.getit.ui.component.listItem.LocationInput
+import ie.setu.getit.ui.component.listItem.NameInput
+import ie.setu.getit.ui.component.listItem.PriceInput
 import ie.setu.getit.ui.theme.GetitTheme
 
 @Composable
-fun ListScreen(modifier: Modifier = Modifier,
-               listings: SnapshotStateList<ItemModel>
+fun ListItemScreen(modifier: Modifier = Modifier,
+                   listings: SnapshotStateList<ItemModel>
 ) {
 
     var totalListed by remember { mutableIntStateOf(0) }
@@ -40,7 +40,7 @@ fun ListScreen(modifier: Modifier = Modifier,
     Column {
         Column(
             modifier = modifier.padding(
-                top = 48.dp,
+                top = 72.dp,
                 start = 24.dp,
                 end = 24.dp
             ),
@@ -82,7 +82,7 @@ fun ListScreen(modifier: Modifier = Modifier,
 @Composable
 fun ListScreenPreview() {
     GetitTheme {
-        ListScreen( modifier = Modifier,
+        ListItemScreen( modifier = Modifier,
             listings = fakeListings.toMutableStateList())
     }
 }

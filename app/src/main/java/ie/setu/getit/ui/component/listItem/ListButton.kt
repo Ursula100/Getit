@@ -1,4 +1,4 @@
-package ie.setu.getit.ui.component.list
+package ie.setu.getit.ui.component.listItem
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height

@@ -7,4 +7,5 @@
     <string name="enter_price">Price</string>
     <string name="enter_location">Location</string>
     <string name="listButton">List</string>
+    <string name="empty_list">No Listings Yet!</string>
 </resources>

@@ -1,4 +1,4 @@
-package ie.setu.getit.ui.component.list
+package ie.setu.getit.ui.component.listItem
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
@@ -17,12 +17,12 @@ import ie.setu.getit.R
 import ie.setu.getit.ui.theme.GetitTheme
 
 @Composable
-fun LocationInput(
+fun NameInput(
     modifier: Modifier = Modifier,
-    onLocationChange: (String) -> Unit
+    onNameChange: (String) -> Unit
 ) {
 
-    var location by remember { mutableStateOf("") }
+    var name by remember { mutableStateOf("") }
 
     OutlinedTextField(
         colors = OutlinedTextFieldDefaults.colors(
@@ -31,22 +31,23 @@ fun LocationInput(
             unfocusedBorderColor = MaterialTheme.colorScheme.secondary,
         ),
         maxLines = 1,
-        value = location,
+        value = name,
         onValueChange = {
-            location = it
-            onLocationChange(location)
+            name = it
+            onNameChange(name)
         },
         modifier = modifier.fillMaxWidth(),
-        label = { Text(stringResource(R.string.enter_location)) },
+        label = { Text(stringResource(R.string.enter_name)) },
+        supportingText = { Text(stringResource(R.string.enter_name_support_text)) }
     )
 }
 
 @Preview(showBackground = true)
 @Composable
-fun LocationPreview() {
+fun NamePreview() {
     GetitTheme {
-        LocationInput(
+        NameInput(
             Modifier,
-            onLocationChange = {})
+            onNameChange = {})
     }
 }
