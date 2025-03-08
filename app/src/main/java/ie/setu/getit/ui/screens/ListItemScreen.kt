@@ -17,8 +17,10 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import ie.setu.getit.R
 import ie.setu.getit.data.ItemModel
 import ie.setu.getit.data.fakeListings
 import ie.setu.getit.ui.component.listItem.DescriptionInput
@@ -36,7 +38,10 @@ fun ListItemScreen(
     paddingValues: PaddingValues
 ) {
 
-    var totalListed by remember { mutableIntStateOf(0) }
+    val context = LocalContext.current  // for the Toast
+
+    var totalListed = listings.size
+
     var name by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
     var price by remember { mutableIntStateOf(0) }
@@ -54,22 +59,33 @@ fun ListItemScreen(
     // Handle input changes and error state updates
     fun onNameChange(newName: String) {
         name = newName
-        isNameError = newName.isBlank()
+        isNameError = name.isBlank()
     }
 
     fun onDescriptionChange(newDescription: String) {
         description = newDescription
-        isDescError = newDescription.isBlank()
+        isDescError = description.isBlank()
     }
 
     fun onPriceChange(newPrice: String) {
-        price = newPrice.toInt()
-        isPriceError = newPrice.toInt() == 0 && newPrice.isBlank()
+        if (newPrice.isBlank()) {
+            price = 0
+            isPriceError = true // Error if the field is cleared.
+        } else {
+            // Try converting to an integer. If the input is invalid (i.e., cannot be converted to an integer),
+            // set price to 0 using the Elvis operator (?:).
+            // `newPrice.toIntOrNull()` returns null for invalid input like "abc",
+            // so `price` will be set to 0 if the input is not a valid integer.
+            price = newPrice.toIntOrNull() ?: 0
+
+            // Check if the price is 0 (invalid input)
+            isPriceError = price == 0 //&& newPrice.isNotBlank(
+        }
     }
 
     fun onLocationChange(newLocation: String) {
         location = newLocation
-        isLocationError = newLocation.isBlank()
+        isLocationError = location.isBlank()
     }
 
     val onList: () -> Unit = {
@@ -80,6 +96,8 @@ fun ListItemScreen(
 
         if (isNameError || isDescError || isPriceError || isLocationError) {
             // Show feedback or an alert here
+            Toast.makeText(context, R.string.fill_all_fields,listings.size).show()
+
 
         } else {
             // Proceed with your action (e.g., adding the item)
@@ -120,7 +138,7 @@ fun ListItemScreen(
             PriceInput(
                 modifier = modifier,
                 price = price.toString(),
-                onPriceChange = { onPriceChange(it.toString())},
+                onPriceChange = { onPriceChange(it)},
                 isError = isPriceError
             )
             LocationInput(

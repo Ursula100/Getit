@@ -8,4 +8,5 @@
     <string name="enter_location">Location</string>
     <string name="listButton">List</string>
     <string name="empty_list">No Listings Yet!</string>
+    <string name="fill_all_fields">Fill all required information</string>
 </resources>

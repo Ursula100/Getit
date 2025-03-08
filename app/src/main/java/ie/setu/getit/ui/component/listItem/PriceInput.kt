@@ -16,7 +16,7 @@ import ie.setu.getit.ui.theme.GetitTheme
 fun PriceInput(
     modifier: Modifier = Modifier,
     price: String,
-    onPriceChange: (Int) -> Unit,
+    onPriceChange: (String) -> Unit,
     isError: Boolean
 ) {
 
@@ -29,7 +29,7 @@ fun PriceInput(
         maxLines = 1,
         value = price,
         onValueChange = {
-            onPriceChange(it.toInt())
+            onPriceChange(it)
         },
         modifier = modifier.fillMaxWidth(),
         label = { Text(stringResource(R.string.enter_price)) },
