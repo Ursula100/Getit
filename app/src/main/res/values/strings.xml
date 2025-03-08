@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Getit</string>
+    <string name="enter_name">Name</string>
+    <string name="enter_name_support_text">Short Description</string>
+    <string name="enter_desc">Description</string>
+    <string name="enter_desc_support_text">Long description</string>
+    <string name="enter_price">Price</string>
+    <string name="enter_location">Location</string>
+    <string name="listButton">List</string>
+    <string name="empty_list">No Listings Yet!</string>
+    <string name="fill_all_fields">Fill all required information</string>
+</resources>
