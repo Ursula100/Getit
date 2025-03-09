@@ -57,7 +57,7 @@ fun GetitApp(modifier: Modifier = Modifier) {
             AppNavDrawer(
                 selectedScreen = selectedScreenOption,
                 onScreenSelected = { selectedScreenOption = it },
-                closeDrawer = { scope.launch { drawerState.close() } }
+                closeDrawer = { scope.launch { drawerState.close() } },
             )
         }
     ) {
