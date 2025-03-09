@@ -1,5 +1,5 @@
 package ie.setu.getit.ui.component.general
 
 enum class ScreenOptions {
-    ListItem, Listings
+    ListItem, Listings, Home, About
 }
