@@ -114,7 +114,7 @@ fun GetitApp(modifier: Modifier = Modifier) {
 
 fun screenTitle(screen: ScreenOptions?): String {
     return when (screen) {
-        ScreenOptions.Home -> "Home"
+        ScreenOptions.Home -> "GetIt"
         ScreenOptions.Listings -> "My Listings"
         ScreenOptions.ListItem -> "New Listing"
         else -> ""

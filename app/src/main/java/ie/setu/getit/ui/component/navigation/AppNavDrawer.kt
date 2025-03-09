@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Person
@@ -38,7 +39,7 @@ fun AppNavDrawer(
             onScreenSelected(ScreenOptions.Home)
             closeDrawer()
         }
-        DrawerItem("Listings", Icons.Default.List, selectedScreen == ScreenOptions.Listings) {
+        DrawerItem("Listings", Icons.AutoMirrored.Filled.List, selectedScreen == ScreenOptions.Listings) {
             onScreenSelected(ScreenOptions.Listings)
             closeDrawer()
         }
@@ -58,7 +59,7 @@ fun DrawerHeader() {
             .fillMaxWidth()
             .background(
                 brush = Brush.horizontalGradient(
-                    colors = listOf(Color(0xFF6200EE), Color(0xFF3700B3)) // Example gradient colors
+                    colors = listOf(Color(0xFF10851A), Color(0xFF1C8C40)) // Example gradient colors
                 )
             )
             .padding(16.dp)
@@ -84,6 +85,12 @@ fun DrawerItem(
         icon = { Icon(icon, contentDescription = label, tint = MaterialTheme.colorScheme.primary) },
         selected = selected,
         onClick = onClick,
-        shape = MaterialTheme.shapes.medium
+        shape = MaterialTheme.shapes.medium,
+        colors = NavigationDrawerItemDefaults.colors(
+            selectedContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f), // Change background color of selected item
+            unselectedContainerColor = Color.Transparent, // Background for unselected items
+            unselectedTextColor = MaterialTheme.colorScheme.onSurface, // Default text color
+            unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant // Default icon color
+        )
     )
 }
