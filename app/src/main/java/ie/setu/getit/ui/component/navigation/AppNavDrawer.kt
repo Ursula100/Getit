@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
@@ -41,6 +42,10 @@ fun AppNavDrawer(
         }
         DrawerItem("Listings", Icons.AutoMirrored.Filled.List, selectedScreen == ScreenOptions.Listings) {
             onScreenSelected(ScreenOptions.Listings)
+            closeDrawer()
+        }
+        DrawerItem("About GetIt", Icons.Default.Info, selectedScreen == ScreenOptions.About) {
+            onScreenSelected(ScreenOptions.About)
             closeDrawer()
         }
         /*DrawerItem("Profile", Icons.Default.Person, selectedScreen == ScreenOptions.Profile) {

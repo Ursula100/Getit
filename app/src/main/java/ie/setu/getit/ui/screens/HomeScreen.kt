@@ -50,7 +50,7 @@ fun HomeScreen (
     Column {
         Column(
             modifier = modifier.padding(
-                top = paddingValues.calculateTopPadding() + 8.dp, // Extra space
+                top = paddingValues.calculateTopPadding() + 0.dp, // Extra space
                 start = 24.dp,
                 end = 24.dp
             )

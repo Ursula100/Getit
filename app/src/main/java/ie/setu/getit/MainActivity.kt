@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import ie.setu.getit.data.ItemModel
 import ie.setu.getit.ui.component.general.ScreenOptions
 import ie.setu.getit.ui.component.navigation.AppNavDrawer
+import ie.setu.getit.ui.screens.AboutScreen
 import ie.setu.getit.ui.screens.HomeScreen
 import ie.setu.getit.ui.screens.ListItemScreen
 import ie.setu.getit.ui.screens.ListingScreen
@@ -94,6 +95,7 @@ fun GetitApp(modifier: Modifier = Modifier) {
                     ScreenOptions.Home -> HomeScreen(modifier, paddingValues)
                     ScreenOptions.Listings -> ListingScreen(modifier, listings, paddingValues)
                     ScreenOptions.ListItem -> ListItemScreen(modifier, listings, paddingValues)
+                    ScreenOptions.About -> AboutScreen(modifier)
                     else -> {}
                 }
             },
@@ -117,6 +119,7 @@ fun screenTitle(screen: ScreenOptions?): String {
         ScreenOptions.Home -> "GetIt"
         ScreenOptions.Listings -> "My Listings"
         ScreenOptions.ListItem -> "New Listing"
+        ScreenOptions.About -> "About GetIt"
         else -> ""
     }
 }
