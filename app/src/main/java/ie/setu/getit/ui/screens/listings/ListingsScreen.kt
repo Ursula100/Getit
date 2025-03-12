@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Wallpapers
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ie.setu.getit.R
-import ie.setu.getit.data.ItemModel
+import ie.setu.getit.data.ListingModel
 import ie.setu.getit.data.fakeListings
 import ie.setu.getit.ui.component.general.Centre
 import ie.setu.getit.ui.component.listings.ListingsList
@@ -27,7 +27,7 @@ import ie.setu.getit.ui.theme.GetitTheme
 @Composable
 fun ListingScreen (
     modifier: Modifier = Modifier,
-    listings: SnapshotStateList<ItemModel>,
+    listings: SnapshotStateList<ListingModel>,
     paddingValues: PaddingValues
 ){
     Column {

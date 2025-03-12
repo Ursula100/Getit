@@ -8,13 +8,13 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.Wallpapers
-import ie.setu.getit.data.ItemModel
+import ie.setu.getit.data.ListingModel
 import ie.setu.getit.data.fakeListings
 import ie.setu.getit.ui.theme.GetitTheme
 
 @Composable
 fun ListingsList(
-    listings: SnapshotStateList<ItemModel>,
+    listings: SnapshotStateList<ListingModel>,
     modifier: Modifier = Modifier
 ){
     LazyColumn {

@@ -15,7 +15,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import ie.setu.getit.data.ItemModel
+import dagger.hilt.android.AndroidEntryPoint
+import ie.setu.getit.data.ListingModel
 import ie.setu.getit.ui.component.general.ScreenOptions
 import ie.setu.getit.ui.component.navigation.AppNavDrawer
 import ie.setu.getit.ui.screens.about.AboutScreen
@@ -25,6 +26,7 @@ import ie.setu.getit.ui.screens.listings.ListingScreen
 import ie.setu.getit.ui.theme.GetitTheme
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +48,7 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GetitApp(modifier: Modifier = Modifier) {
-    val listings = remember { mutableStateListOf<ItemModel>() }
+    val listings = remember { mutableStateListOf<ListingModel>() }
     var selectedScreenOption by remember { mutableStateOf<ScreenOptions?>(ScreenOptions.Home) }
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)

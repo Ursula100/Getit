@@ -21,7 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ie.setu.getit.R
-import ie.setu.getit.data.ItemModel
+import ie.setu.getit.data.ListingModel
 import ie.setu.getit.data.fakeListings
 import ie.setu.getit.ui.component.listItem.DescriptionInput
 import ie.setu.getit.ui.component.listItem.ListButton
@@ -34,7 +34,7 @@ import timber.log.Timber
 @Composable
 fun ListItemScreen(
     modifier: Modifier = Modifier,
-    listings: SnapshotStateList<ItemModel>,
+    listings: SnapshotStateList<ListingModel>,
     paddingValues: PaddingValues
 ) {
 
@@ -101,7 +101,7 @@ fun ListItemScreen(
 
         } else {
             // Proceed with your action (e.g., adding the item)
-            val newItem = ItemModel(
+            val newItem = ListingModel(
                 name = name,
                 description = description,
                 price = price,

@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.androidx.storage)
     implementation(libs.androidx.storage)
     implementation(libs.timber)
+    implementation(libs.androidx.espresso.core)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
