@@ -1,4 +1,4 @@
-package ie.setu.getit.ui.screens
+package ie.setu.getit.ui.screens.list_item
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement

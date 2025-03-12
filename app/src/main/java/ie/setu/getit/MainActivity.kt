@@ -18,10 +18,10 @@ import androidx.compose.ui.graphics.Color
 import ie.setu.getit.data.ItemModel
 import ie.setu.getit.ui.component.general.ScreenOptions
 import ie.setu.getit.ui.component.navigation.AppNavDrawer
-import ie.setu.getit.ui.screens.AboutScreen
-import ie.setu.getit.ui.screens.HomeScreen
-import ie.setu.getit.ui.screens.ListItemScreen
-import ie.setu.getit.ui.screens.ListingScreen
+import ie.setu.getit.ui.screens.about.AboutScreen
+import ie.setu.getit.ui.screens.home.HomeScreen
+import ie.setu.getit.ui.screens.list_item.ListItemScreen
+import ie.setu.getit.ui.screens.listings.ListingScreen
 import ie.setu.getit.ui.theme.GetitTheme
 import kotlinx.coroutines.launch
 
@@ -103,8 +103,8 @@ fun GetitApp(modifier: Modifier = Modifier) {
                 if (selectedScreenOption == ScreenOptions.Listings) {
                     FloatingActionButton(
                         onClick = { selectedScreenOption = ScreenOptions.ListItem },
-                        containerColor = MaterialTheme.colorScheme.surfaceContainer,
-                        contentColor = MaterialTheme.colorScheme.primary
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
                     ) {
                         Icon(Icons.Filled.Add, contentDescription = "Add")
                     }
