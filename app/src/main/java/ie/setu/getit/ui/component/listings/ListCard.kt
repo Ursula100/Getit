@@ -26,7 +26,7 @@ import java.util.Date
 @Composable
 fun ListCard(
     id: Int,
-    name: String,
+    title: String,
     description: String,
     price: Int,
     location: String,
@@ -34,7 +34,7 @@ fun ListCard(
 ){
     ListItem(
         headlineContent = {
-            Text(name, fontWeight = FontWeight.Bold, maxLines = 1)
+            Text(title, fontWeight = FontWeight.Bold, maxLines = 1)
         },
         overlineContent = {
             Text("id: $id", fontStyle = FontStyle.Italic, color = Color.Gray)
@@ -64,7 +64,7 @@ fun ListCardPreview() {
     GetitTheme {
         ListCard(
             id = 12345,
-            name = "Antique Bread Cutter",
+            title = "Antique Bread Cutter",
             description = "1860's bread cutter. Cleaned and brought to usable state. Amazing old piece and craftmanship",
             price = 300,
             location = "Waterford, Ireland",

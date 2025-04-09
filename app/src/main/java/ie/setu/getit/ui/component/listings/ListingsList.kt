@@ -25,7 +25,7 @@ fun ListingsList(
             listing ->
             ListCard(
                 id = listing.id,
-                name = listing.name,
+                title = listing.title,
                 description = listing.description,
                 price = listing.price,
                 location = listing.location,

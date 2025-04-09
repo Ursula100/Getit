@@ -13,9 +13,9 @@ import ie.setu.getit.R
 import ie.setu.getit.ui.theme.GetitTheme
 
 @Composable
-fun NameInput(
+fun TitleInput(
     modifier: Modifier = Modifier,
-    name: String,
+    title: String,
     onNameChange: (String) -> Unit,
     isError: Boolean
 ) {
@@ -27,7 +27,7 @@ fun NameInput(
             unfocusedBorderColor = MaterialTheme.colorScheme.secondary,
         ),
         maxLines = 1,
-        value = name,
+        value = title,
         onValueChange = {
             onNameChange(it)
         },
@@ -42,9 +42,9 @@ fun NameInput(
 @Composable
 fun NamePreview() {
     GetitTheme {
-        NameInput(
+        TitleInput(
             Modifier,
-            name = "Table knife set",
+            title = "Table knife set",
             onNameChange = {},
             isError = false)
     }

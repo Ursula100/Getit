@@ -26,7 +26,7 @@ import ie.setu.getit.data.fakeListings
 import ie.setu.getit.ui.component.listItem.DescriptionInput
 import ie.setu.getit.ui.component.listItem.ListButton
 import ie.setu.getit.ui.component.listItem.LocationInput
-import ie.setu.getit.ui.component.listItem.NameInput
+import ie.setu.getit.ui.component.listItem.TitleInput
 import ie.setu.getit.ui.component.listItem.PriceInput
 import ie.setu.getit.ui.theme.GetitTheme
 import timber.log.Timber
@@ -42,7 +42,7 @@ fun ListItemScreen(
 
     var totalListed = listings.size
 
-    var name by remember { mutableStateOf("") }
+    var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
     var price by remember { mutableIntStateOf(0) }
     var location by remember { mutableStateOf("") }
@@ -57,9 +57,9 @@ fun ListItemScreen(
     val isButtonEnabled = !isNameError && !isDescError && !isPriceError && !isLocationError
 
     // Handle input changes and error state updates
-    fun onNameChange(newName: String) {
-        name = newName
-        isNameError = name.isBlank()
+    fun onTitleChange(newName: String) {
+        title = newName
+        isNameError = title.isBlank()
     }
 
     fun onDescriptionChange(newDescription: String) {
@@ -89,7 +89,7 @@ fun ListItemScreen(
     }
 
     val onList: () -> Unit = {
-        isNameError = name.isBlank()
+        isNameError = title.isBlank()
         isDescError = description.isBlank()
         isPriceError = price == 0
         isLocationError = location.isBlank()
@@ -102,7 +102,7 @@ fun ListItemScreen(
         } else {
             // Proceed with your action (e.g., adding the item)
             val newItem = ListingModel(
-                name = name,
+                title = title,
                 description = description,
                 price = price,
                 location = location
@@ -123,10 +123,10 @@ fun ListItemScreen(
             ),
             verticalArrangement = Arrangement.spacedBy(30.dp),
         ) {
-            NameInput(
+            TitleInput(
                 modifier = modifier,
-                name = name,
-                onNameChange = { onNameChange(it) },
+                title = title,
+                onNameChange = { onTitleChange(it) },
                 isError = isNameError
             )
             DescriptionInput(
