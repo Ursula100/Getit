@@ -21,7 +21,7 @@ import ie.setu.getit.ui.component.general.ScreenOptions
 import ie.setu.getit.ui.component.navigation.AppNavDrawer
 import ie.setu.getit.ui.screens.about.AboutScreen
 import ie.setu.getit.ui.screens.home.HomeScreen
-import ie.setu.getit.ui.screens.list_item.ListItemScreen
+import ie.setu.getit.ui.screens.list_item.ListScreen
 import ie.setu.getit.ui.screens.listings.ListingScreen
 import ie.setu.getit.ui.theme.GetitTheme
 import kotlinx.coroutines.launch
@@ -96,7 +96,7 @@ fun GetitApp(modifier: Modifier = Modifier) {
                 when (selectedScreenOption) {
                     ScreenOptions.Home -> HomeScreen(modifier, paddingValues)
                     ScreenOptions.Listings -> ListingScreen(modifier, listings, paddingValues)
-                    ScreenOptions.ListItem -> ListItemScreen(modifier, listings, paddingValues)
+                    ScreenOptions.ListItem -> ListScreen(modifier, listings, paddingValues)
                     ScreenOptions.About -> AboutScreen(modifier)
                     else -> {}
                 }

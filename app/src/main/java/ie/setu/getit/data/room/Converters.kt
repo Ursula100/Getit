@@ -1,6 +1,8 @@
 package ie.setu.getit.data.room
 
 import androidx.room.TypeConverter
+import ie.setu.getit.data.Category
+import ie.setu.getit.data.ItemCondition
 import java.util.Date
 
 class Converters {
@@ -13,4 +15,20 @@ class Converters {
     fun dateToTimestamp(date: Date?): Long? {
         return date?.time?.toLong()
     }
+
+    @TypeConverter
+    fun fromItemCondition(condition: ItemCondition): String = condition.name
+
+    @TypeConverter
+    fun toItemCondition(value: String): ItemCondition = ItemCondition.valueOf(value)
+
+
+    @TypeConverter
+    fun fromCategoryList(categories: List<Category>): String =
+        categories.joinToString(",") { it.name }
+
+    @TypeConverter
+    fun toCategoryList(value: String): List<Category> =
+        if (value.isEmpty()) emptyList()
+        else value.split(",").map { Category.valueOf(it) }
 }

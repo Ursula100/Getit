@@ -44,6 +44,10 @@ fun AppNavDrawer(
             onScreenSelected(ScreenOptions.Listings)
             closeDrawer()
         }
+        DrawerItem("List Item", Icons.Default.Info, selectedScreen == ScreenOptions.ListItem) {
+            onScreenSelected(ScreenOptions.About)
+            closeDrawer()
+        }
         DrawerItem("About GetIt", Icons.Default.Info, selectedScreen == ScreenOptions.About) {
             onScreenSelected(ScreenOptions.About)
             closeDrawer()
