@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.Date
 
-@Entity
+@Entity(tableName = "listingmodel")
 data class ListingModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,

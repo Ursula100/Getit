@@ -15,14 +15,16 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.hilt.navigation.compose.hiltViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import ie.setu.getit.data.ListingModel
 import ie.setu.getit.ui.component.general.ScreenOptions
 import ie.setu.getit.ui.component.navigation.AppNavDrawer
 import ie.setu.getit.ui.screens.about.AboutScreen
 import ie.setu.getit.ui.screens.home.HomeScreen
-import ie.setu.getit.ui.screens.list_item.ListScreen
+import ie.setu.getit.ui.screens.list.ListScreen
+import ie.setu.getit.ui.screens.list.ListViewModel
 import ie.setu.getit.ui.screens.listings.ListingScreen
+import ie.setu.getit.ui.screens.listings.ListingsViewModel
 import ie.setu.getit.ui.theme.GetitTheme
 import kotlinx.coroutines.launch
 
@@ -47,8 +49,8 @@ class MainActivity : ComponentActivity() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GetitApp(modifier: Modifier = Modifier) {
-    val listings = remember { mutableStateListOf<ListingModel>() }
+fun GetitApp(modifier: Modifier = Modifier, listingsViewModel: ListingsViewModel = hiltViewModel(), listViewModel: ListViewModel = hiltViewModel()) {
+
     var selectedScreenOption by remember { mutableStateOf<ScreenOptions?>(ScreenOptions.Home) }
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -95,8 +97,8 @@ fun GetitApp(modifier: Modifier = Modifier) {
             content = { paddingValues ->
                 when (selectedScreenOption) {
                     ScreenOptions.Home -> HomeScreen(modifier, paddingValues)
-                    ScreenOptions.Listings -> ListingScreen(modifier, listings, paddingValues)
-                    ScreenOptions.ListItem -> ListScreen(modifier, listings, paddingValues)
+                    ScreenOptions.Listings -> ListingScreen(modifier, listingsViewModel, paddingValues)
+                    ScreenOptions.ListItem -> ListScreen(modifier, listingsViewModel, listViewModel, paddingValues)
                     ScreenOptions.About -> AboutScreen(modifier)
                     else -> {}
                 }

@@ -3,7 +3,6 @@ package ie.setu.getit.ui.component.listings
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -14,7 +13,7 @@ import ie.setu.getit.ui.theme.GetitTheme
 
 @Composable
 fun ListingsList(
-    listings: SnapshotStateList<ListingModel>,
+    listings: List<ListingModel>,
     modifier: Modifier = Modifier
 ){
     LazyColumn {
