@@ -13,6 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import ie.setu.getit.R
 import ie.setu.getit.data.Category
 import ie.setu.getit.data.ItemCondition
@@ -33,7 +34,8 @@ fun ListScreen(
     modifier: Modifier = Modifier,
     listingsViewModel: ListingsViewModel = hiltViewModel(),
     listViewModel: ListViewModel = hiltViewModel(),
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    navController: NavHostController
 ) {
     val context = LocalContext.current  // for the Toast
 
@@ -113,13 +115,14 @@ fun ListScreen(
             Timber.i("New Listing info : $newItem")
             totalListed += 1
             Timber.i("All Listings ${listings.toList()}")
+            navController.navigate("listings")
         }
     }
 
     // make the screen scrollable
     LazyColumn(
         modifier = modifier
-            .padding(top = paddingValues.calculateTopPadding() + 30.dp, start = 24.dp, end = 24.dp, bottom = paddingValues.calculateBottomPadding() + 30.dp )
+            .padding(top = 24.dp, start = 24.dp, end = 24.dp, bottom = 24.dp )
             .fillMaxSize(), // Ensure the LazyColumn takes up the full available space
         verticalArrangement = Arrangement.spacedBy(30.dp)
     ) {

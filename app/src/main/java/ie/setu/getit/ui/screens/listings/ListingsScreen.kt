@@ -1,15 +1,21 @@
 package ie.setu.getit.ui.screens.listings
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -19,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Wallpapers
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import ie.setu.getit.R
 import ie.setu.getit.data.ListingModel
 import ie.setu.getit.data.fakeListings
@@ -30,30 +37,27 @@ import ie.setu.getit.ui.theme.GetitTheme
 fun ListingScreen (
     modifier: Modifier = Modifier,
     listingsViewModel: ListingsViewModel = hiltViewModel(),
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    navController: NavHostController
 ){
     val listings = listingsViewModel.uiListings.collectAsState().value
 
-    Column {
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = modifier.padding(
-                top = paddingValues.calculateTopPadding() + 14.dp, // Extra space
                 start = 24.dp,
                 end = 24.dp
             )
         ) {
-            if(listings.isNotEmpty()) {
+            if (listings.isNotEmpty()) {
                 ListingsList(
                     listings = listings,
                     onDeleteListing = { listing: ListingModel ->
-                        listingsViewModel.deleteListing(
-                            listing
-                        )
+                        listingsViewModel.deleteListing(listing)
                     },
                 )
-            }
-            else {
-                Centre(Modifier.fillMaxSize()){
+            } else {
+                Centre(Modifier.fillMaxSize()) {
                     Text(
                         color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold,
@@ -64,6 +68,17 @@ fun ListingScreen (
                     )
                 }
             }
+        }
+
+        FloatingActionButton(
+            onClick = { navController.navigate("list") },
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(16.dp),
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary
+        ) {
+            Icon(Icons.Default.Add, contentDescription = "Add Listing")
         }
     }
 }

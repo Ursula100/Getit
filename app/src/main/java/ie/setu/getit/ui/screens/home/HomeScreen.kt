@@ -49,8 +49,7 @@ fun HomeScreen (
     //will later break into potentially reusable and more maintainable components
     Column {
         Column(
-            modifier = modifier.padding(
-                top = paddingValues.calculateTopPadding() + 0.dp, // Extra space
+            modifier = modifier.padding( // Extra space
                 start = 24.dp,
                 end = 24.dp
             )
