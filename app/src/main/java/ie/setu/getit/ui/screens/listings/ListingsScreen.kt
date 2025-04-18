@@ -43,7 +43,14 @@ fun ListingScreen (
             )
         ) {
             if(listings.isNotEmpty()) {
-                ListingsList(listings = listings)
+                ListingsList(
+                    listings = listings,
+                    onDeleteListing = { listing: ListingModel ->
+                        listingsViewModel.deleteListing(
+                            listing
+                        )
+                    },
+                )
             }
             else {
                 Centre(Modifier.fillMaxSize()){
@@ -83,7 +90,10 @@ fun PreviewListingScreen(modifier: Modifier = Modifier,
             )
         ) {
             if(listings.isNotEmpty()) {
-                ListingsList(listings = listings)
+                ListingsList(
+                    listings = listings,
+                    onDeleteListing = {},
+                )
             }
             else {
                 Centre(Modifier.fillMaxSize()){

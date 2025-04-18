@@ -14,7 +14,9 @@ import ie.setu.getit.ui.theme.GetitTheme
 @Composable
 fun ListingsList(
     listings: List<ListingModel>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    // onUpdateClick: (listingId: Int) -> Unit,
+    onDeleteListing: (ListingModel) -> Unit
 ){
     LazyColumn {
         items(
@@ -28,7 +30,9 @@ fun ListingsList(
                 description = listing.description,
                 price = listing.price,
                 location = listing.location,
-                listedON = listing.listedOn
+                listedON = listing.listedOn,
+                // onUpdateClick = {},
+                onDeleteClick = { onDeleteListing(listing) },
             )
         }
     }
@@ -38,6 +42,10 @@ fun ListingsList(
 @Composable
 fun ListingsListPreview(){
     GetitTheme {
-        ListingsList(fakeListings.toMutableStateList())
+        ListingsList(
+            fakeListings.toMutableStateList(),
+            //onUpdateClick = { },
+            onDeleteListing = {},
+        )
     }
 }

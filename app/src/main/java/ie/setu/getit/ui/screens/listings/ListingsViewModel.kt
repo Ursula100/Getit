@@ -16,6 +16,7 @@ class ListingsViewModel @Inject
 constructor(private val repository: RoomRepository) : ViewModel() {
     private val _listings
             = MutableStateFlow<List<ListingModel>>(emptyList())
+
     val uiListings: StateFlow<List<ListingModel>>
             = _listings.asStateFlow()
 
@@ -26,4 +27,11 @@ constructor(private val repository: RoomRepository) : ViewModel() {
             }
         }
     }
+
+    fun deleteListing(listing: ListingModel) {
+        viewModelScope.launch {
+            repository.delete(listing)
+        }
+    }
+
 }
