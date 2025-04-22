@@ -10,7 +10,6 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -41,9 +40,10 @@ fun ListScreen(
 ) {
     val context = LocalContext.current
     val listings = listingsViewModel.uiListings.collectAsState().value
+
+    // check and determine if in edit mode
     val listingToEdit = if (id != null) listViewModel.listing.value else null
     val isEditing = listingToEdit != null
-    val buttonText = if (isEditing) stringResource(id = R.string.updateButton) else stringResource(id = R.string.listButton)
 
     // Form state
     var title by remember { mutableStateOf("") }
@@ -71,19 +71,6 @@ fun ListScreen(
             selectedCategories.clear()
             selectedCategories.addAll(it.categories)
         }
-    }
-
-    while (listingToEdit == null && id!=null) {
-        // Still loading the listing to edit
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator()
-        }
-        return
     }
 
 
@@ -264,8 +251,8 @@ fun ListScreen(
                 modifier = modifier.fillMaxWidth(),
                 enabled = isButtonEnabled,
                 onClick = onSubmit,
-                buttonText = buttonText,
-                totalListed = listings.size
+                totalListed = listings.size,
+                isEditing = isEditing
             )
         }
     }
@@ -489,8 +476,8 @@ fun PreviewListScreen(modifier: Modifier = Modifier, listings: SnapshotStateList
                 modifier = modifier.fillMaxWidth(),
                 enabled = isButtonEnabled,
                 onClick = onList,
-                buttonText = "",
-                totalListed = totalListed
+                totalListed = totalListed,
+                isEditing = false
             )
         }
     }
