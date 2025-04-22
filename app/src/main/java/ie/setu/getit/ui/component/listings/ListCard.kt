@@ -30,6 +30,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import ie.setu.getit.R
 import ie.setu.getit.ui.theme.GetitTheme
 import java.util.Date
@@ -44,8 +46,7 @@ fun ListCard(
     location: String,
     listedON: Date,
     onDeleteClick: () -> Unit,
-    // onUpdateClick: (listingId: Int) -> Unit,
-
+    navController: NavHostController
 ) {
     var expanded by remember { mutableStateOf(false) }
     var showDeleteConfirmDialog by remember { mutableStateOf(false) }
@@ -82,7 +83,7 @@ fun ListCard(
                         text = { Text("Update") },
                         onClick = {
                             expanded = false
-                            //onUpdateClick(id)
+                            navController.navigate("list/$id")
                         }
                     )
                     DropdownMenuItem(
@@ -136,8 +137,8 @@ fun ListCardPreview() {
             price = 300,
             location = "Waterford, Ireland",
             listedON = Date(),
-            // onUpdateClick = {},
-            onDeleteClick = {},
+            navController = rememberNavController(),
+            onDeleteClick = { }
         )
     }
 }

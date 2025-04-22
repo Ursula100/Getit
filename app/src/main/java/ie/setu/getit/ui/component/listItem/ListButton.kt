@@ -9,13 +9,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ie.setu.getit.R
 import ie.setu.getit.ui.theme.GetitTheme
 
 @Composable
@@ -23,6 +21,7 @@ fun ListButton(
     modifier: Modifier = Modifier,
     enabled: Boolean,
     totalListed: Int,
+    buttonText: String,
     onClick: () -> Unit
 ) {
     Button(
@@ -36,7 +35,7 @@ fun ListButton(
         Text(
             modifier = Modifier
                 .fillMaxWidth(),  // Make sure the Text takes up the full width of the Button
-            text = stringResource(R.string.listButton),
+            text = buttonText,
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp,
             color = Color.White,
@@ -63,6 +62,7 @@ fun ListButtonPreview() {
             Modifier,
             enabled = false,
             totalListed = 0,
+            buttonText = "",
             onClick = {}
         )
     }

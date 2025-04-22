@@ -17,6 +17,9 @@ object ListItem : AppDestination {
     override val icon = Icons.Filled.AddCircle
     override val label = "List an Item"
     override val route = "list"
+
+    // to navigate to edit a specific listing
+    fun withId(id: Int) = "list/$id"
 }
 
 object Listings : AppDestination {

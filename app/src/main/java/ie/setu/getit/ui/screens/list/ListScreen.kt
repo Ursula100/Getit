@@ -10,6 +10,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -36,40 +37,59 @@ fun ListScreen(
     listViewModel: ListViewModel = hiltViewModel(),
     paddingValues: PaddingValues,
     navController: NavHostController,
-    listingToEdit: ListingModel? = null, // if null, it's create mode
+    id: Int? = null
 ) {
-    val context = LocalContext.current  // for the Toast
-
+    val context = LocalContext.current
     val listings = listingsViewModel.uiListings.collectAsState().value
+    val listingToEdit = if (id != null) listViewModel.listing.value else null
+    val isEditing = listingToEdit != null
+    val buttonText = if (isEditing) stringResource(id = R.string.updateButton) else stringResource(id = R.string.listButton)
 
-    var totalListed = listings.size
-
-    var title by remember { mutableStateOf(listingToEdit?.title ?: "") }
-    var description by remember { mutableStateOf(listingToEdit?.description ?: "") }
-    var price by remember { mutableIntStateOf(listingToEdit?.price ?: 0) }
-    var location by remember { mutableStateOf(listingToEdit?.location ?: "") }
-
-    // Dropdown state for condition
-    var selectedCondition by remember { mutableStateOf(listingToEdit?.condition ?: ItemCondition.NEW) }
+    // Form state
+    var title by remember { mutableStateOf("") }
+    var description by remember { mutableStateOf("") }
+    var price by remember { mutableIntStateOf(0) }
+    var location by remember { mutableStateOf("") }
+    var selectedCondition by remember { mutableStateOf(ItemCondition.NEW) }
     var isConditionDropdownExpanded by remember { mutableStateOf(false) }
+    val selectedCategories = remember { mutableStateListOf<Category>() }
 
-    // Checkbox state for categories
-    val selectedCategories = remember {
-        mutableStateListOf<Category>().apply {
-            listingToEdit?.categories?.forEach { add(it) }
-        }
-    }
-
-    // Field check - ensure not empty
+    // Error state
     var isNameError by remember { mutableStateOf(false) }
     var isDescError by remember { mutableStateOf(false) }
     var isPriceError by remember { mutableStateOf(false) }
     var isLocationError by remember { mutableStateOf(false) }
 
-    // Button check - enabled state
+    // Only update when listingToEdit changes
+    LaunchedEffect(listingToEdit) {
+        listingToEdit?.let {
+            title = it.title
+            description = it.description
+            price = it.price
+            location = it.location
+            selectedCondition = it.condition
+            selectedCategories.clear()
+            selectedCategories.addAll(it.categories)
+        }
+    }
+
+    while (listingToEdit == null && id!=null) {
+        // Still loading the listing to edit
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+        return
+    }
+
+
     val isButtonEnabled = !isNameError && !isDescError && !isPriceError && !isLocationError
 
-    // Handle input changes and error state updates
+    // Input change handlers
     fun onTitleChange(newName: String) {
         title = newName
         isNameError = title.isBlank()
@@ -81,13 +101,8 @@ fun ListScreen(
     }
 
     fun onPriceChange(newPrice: String) {
-        if (newPrice.isBlank()) {
-            price = 0
-            isPriceError = true
-        } else {
-            price = newPrice.toIntOrNull() ?: 0
-            isPriceError = price == 0
-        }
+        price = newPrice.toIntOrNull() ?: 0
+        isPriceError = price <= 0
     }
 
     fun onLocationChange(newLocation: String) {
@@ -98,16 +113,14 @@ fun ListScreen(
     val onSubmit: () -> Unit = {
         isNameError = title.isBlank()
         isDescError = description.isBlank()
-        isPriceError = price == 0
+        isPriceError = price <= 0
         isLocationError = location.isBlank()
 
         if (isNameError || isDescError || isPriceError || isLocationError) {
             Toast.makeText(context, R.string.fill_all_fields, Toast.LENGTH_SHORT).show()
-        }
-        else if (selectedCategories.size <1 ) {
+        } else if (selectedCategories.isEmpty()) {
             Toast.makeText(context, "You can select at least 1 category", Toast.LENGTH_SHORT).show()
-        }
-        else {
+        } else {
             val newItem = listingToEdit?.copy(
                 title = title,
                 description = description,
@@ -124,32 +137,27 @@ fun ListScreen(
                 categories = selectedCategories.toList()
             )
 
-            if (listingToEdit == null) {
-                listViewModel.insert(newItem)
-                Timber.i("New Listing info : $newItem")
-                totalListed += 1
-                Timber.i("All Listings ${listings.toList()}")
-            } else {
+            if (isEditing) {
                 listViewModel.update(newItem)
-                Timber.i("Item ${newItem.id} : $newItem")
+            } else {
+                listViewModel.insert(newItem)
             }
 
             navController.navigate("listings")
         }
     }
 
-    // make the screen scrollable
     LazyColumn(
         modifier = modifier
-            .padding(top = 24.dp, start = 24.dp, end = 24.dp, bottom = 24.dp )
-            .fillMaxSize(), // Ensure the LazyColumn takes up the full available space
+            .padding(24.dp)
+            .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(30.dp)
     ) {
         item {
             TitleInput(
                 modifier = modifier,
                 title = title,
-                onNameChange = { onTitleChange(it) },
+                onNameChange = ::onTitleChange,
                 isError = isNameError
             )
         }
@@ -158,7 +166,7 @@ fun ListScreen(
             DescriptionInput(
                 modifier = modifier,
                 description = description,
-                onDescriptionChange = { onDescriptionChange(it) },
+                onDescriptionChange = ::onDescriptionChange,
                 isError = isDescError
             )
         }
@@ -167,7 +175,7 @@ fun ListScreen(
             PriceInput(
                 modifier = modifier,
                 price = price.toString(),
-                onPriceChange = { onPriceChange(it) },
+                onPriceChange = ::onPriceChange,
                 isError = isPriceError
             )
         }
@@ -176,13 +184,12 @@ fun ListScreen(
             LocationInput(
                 modifier = modifier,
                 location = location,
-                onLocationChange = { onLocationChange(it) },
+                onLocationChange = ::onLocationChange,
                 isError = isLocationError
             )
         }
 
         item {
-            // Dropdown for ItemCondition
             Column {
                 ExposedDropdownMenuBox(
                     expanded = isConditionDropdownExpanded,
@@ -190,16 +197,13 @@ fun ListScreen(
                 ) {
                     TextField(
                         readOnly = true,
-                        value = selectedCondition.name.replace("_", " ")
-                            .lowercase()
+                        value = selectedCondition.name.replace("_", " ").lowercase()
                             .split(" ")
-                            .joinToString(" ") { it.replaceFirstChar { char -> char.uppercase() } }, //capitalise first character of each word
+                            .joinToString(" ") { it.replaceFirstChar { char -> char.uppercase() } },
                         onValueChange = {},
                         label = { Text("Select Item Condition") },
                         trailingIcon = {
-                            ExposedDropdownMenuDefaults.TrailingIcon(
-                                expanded = isConditionDropdownExpanded
-                            )
+                            ExposedDropdownMenuDefaults.TrailingIcon(expanded = isConditionDropdownExpanded)
                         },
                         modifier = Modifier.menuAnchor().fillMaxWidth()
                     )
@@ -210,11 +214,11 @@ fun ListScreen(
                     ) {
                         ItemCondition.entries.forEach { condition ->
                             DropdownMenuItem(
-                                text = { Text(condition.name.replace("_", " ")
-                                    .lowercase()
-                                    .split(" ")
-                                    .joinToString(" ") { it.replaceFirstChar { char -> char.uppercase() } } //capitalise first character of each word
-                                    ) },
+                                text = {
+                                    Text(condition.name.replace("_", " ").lowercase()
+                                        .split(" ")
+                                        .joinToString(" ") { it.replaceFirstChar { char -> char.uppercase() } })
+                                },
                                 onClick = {
                                     selectedCondition = condition
                                     isConditionDropdownExpanded = false
@@ -227,12 +231,11 @@ fun ListScreen(
         }
 
         item {
-            // Category checkboxes (limit to 5)
-            Column (modifier = modifier.fillMaxWidth()) {
+            Column(modifier = modifier.fillMaxWidth()) {
                 Text(text = "Categories (select at least 1 and up to 5)")
                 Category.entries.forEach { category ->
                     val isChecked = category in selectedCategories
-                    Row(verticalAlignment = Alignment.CenterVertically){
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         Checkbox(
                             checked = isChecked,
                             onCheckedChange = { checked ->
@@ -250,8 +253,7 @@ fun ListScreen(
                         Text(text = category.name.replace("_", " ")
                             .lowercase()
                             .split(" ")
-                            .joinToString(" ") { it.replaceFirstChar { char -> char.uppercase() }
-                            })
+                            .joinToString(" ") { it.replaceFirstChar { char -> char.uppercase() } })
                     }
                 }
             }
@@ -261,12 +263,14 @@ fun ListScreen(
             ListButton(
                 modifier = modifier.fillMaxWidth(),
                 enabled = isButtonEnabled,
-                onClick = onList,
-                totalListed = totalListed
+                onClick = onSubmit,
+                buttonText = buttonText,
+                totalListed = listings.size
             )
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
@@ -485,6 +489,7 @@ fun PreviewListScreen(modifier: Modifier = Modifier, listings: SnapshotStateList
                 modifier = modifier.fillMaxWidth(),
                 enabled = isButtonEnabled,
                 onClick = onList,
+                buttonText = "",
                 totalListed = totalListed
             )
         }

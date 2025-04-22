@@ -7,8 +7,12 @@ import kotlinx.coroutines.flow.Flow
 
 class RoomRepository @Inject
 constructor(private val listingDAO: ListingDAO) {
+
     fun getAll(): Flow<List<ListingModel>>
             = listingDAO.getAll()
+
+    fun get(id: Int): Flow<ListingModel>
+            = listingDAO.get(id)
 
     suspend fun insert(listing: ListingModel)
     { listingDAO.insert(listing) }

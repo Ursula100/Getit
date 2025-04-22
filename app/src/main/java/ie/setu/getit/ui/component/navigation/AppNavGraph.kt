@@ -6,7 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
+import androidx.navigation.navArgument
 import ie.setu.getit.ui.screens.about.AboutScreen
 import ie.setu.getit.ui.screens.home.HomeScreen
 import ie.setu.getit.ui.screens.list.ListScreen
@@ -29,12 +31,21 @@ fun NavHostProvider(
             HomeScreen( modifier = modifier, paddingValues = paddingValues)
         }
         composable(route = ListItem.route) {
-            //call our 'Listings' Screen Here
             ListScreen(
                 modifier = modifier,
                 listingsViewModel = listings,
                 paddingValues = paddingValues,
-                navController = navController
+                navController = navController,
+            )
+        }
+        composable(route = "${ListItem.route}/{id}", arguments = listOf(navArgument("id") { type = NavType.IntType })) { backStackEntry ->
+            val id = backStackEntry.arguments?.getInt("id")  // Retrieve the id argument
+            ListScreen(
+                modifier = modifier,
+                listingsViewModel = listings,
+                paddingValues = paddingValues,
+                navController = navController,
+                id = id // Pass id (nullable) to ListScreen
             )
         }
         composable(route = Listings.route) {

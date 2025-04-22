@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import ie.setu.getit.R
 import ie.setu.getit.data.ListingModel
 import ie.setu.getit.data.fakeListings
@@ -52,6 +53,7 @@ fun ListingScreen (
             if (listings.isNotEmpty()) {
                 ListingsList(
                     listings = listings,
+                    navController = navController,
                     onDeleteListing = { listing: ListingModel ->
                         listingsViewModel.deleteListing(listing)
                     },
@@ -107,6 +109,7 @@ fun PreviewListingScreen(modifier: Modifier = Modifier,
             if(listings.isNotEmpty()) {
                 ListingsList(
                     listings = listings,
+                    navController = rememberNavController(),
                     onDeleteListing = {},
                 )
             }
