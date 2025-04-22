@@ -10,6 +10,10 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ListingDAO {
+
+    @Query("SELECT * FROM listingmodel WHERE id=:id")
+    fun get(id: Int): Flow<ListingModel>
+
     @Query("SELECT * FROM listingmodel")
     fun getAll(): Flow<List<ListingModel>>
 

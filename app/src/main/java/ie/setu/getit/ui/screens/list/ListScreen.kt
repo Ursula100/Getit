@@ -35,7 +35,8 @@ fun ListScreen(
     listingsViewModel: ListingsViewModel = hiltViewModel(),
     listViewModel: ListViewModel = hiltViewModel(),
     paddingValues: PaddingValues,
-    navController: NavHostController
+    navController: NavHostController,
+    listingToEdit: ListingModel? = null, // if null, it's create mode
 ) {
     val context = LocalContext.current  // for the Toast
 
@@ -43,17 +44,21 @@ fun ListScreen(
 
     var totalListed = listings.size
 
-    var title by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
-    var price by remember { mutableIntStateOf(0) }
-    var location by remember { mutableStateOf("") }
+    var title by remember { mutableStateOf(listingToEdit?.title ?: "") }
+    var description by remember { mutableStateOf(listingToEdit?.description ?: "") }
+    var price by remember { mutableIntStateOf(listingToEdit?.price ?: 0) }
+    var location by remember { mutableStateOf(listingToEdit?.location ?: "") }
 
     // Dropdown state for condition
-    var selectedCondition by remember { mutableStateOf(ItemCondition.NEW) }
+    var selectedCondition by remember { mutableStateOf(listingToEdit?.condition ?: ItemCondition.NEW) }
     var isConditionDropdownExpanded by remember { mutableStateOf(false) }
 
     // Checkbox state for categories
-    val selectedCategories = remember { mutableStateListOf<Category>() }
+    val selectedCategories = remember {
+        mutableStateListOf<Category>().apply {
+            listingToEdit?.categories?.forEach { add(it) }
+        }
+    }
 
     // Field check - ensure not empty
     var isNameError by remember { mutableStateOf(false) }
@@ -90,7 +95,7 @@ fun ListScreen(
         isLocationError = location.isBlank()
     }
 
-    val onList: () -> Unit = {
+    val onSubmit: () -> Unit = {
         isNameError = title.isBlank()
         isDescError = description.isBlank()
         isPriceError = price == 0
@@ -103,7 +108,14 @@ fun ListScreen(
             Toast.makeText(context, "You can select at least 1 category", Toast.LENGTH_SHORT).show()
         }
         else {
-            val newItem = ListingModel(
+            val newItem = listingToEdit?.copy(
+                title = title,
+                description = description,
+                price = price,
+                location = location,
+                condition = selectedCondition,
+                categories = selectedCategories.toList()
+            ) ?: ListingModel(
                 title = title,
                 description = description,
                 price = price,
@@ -111,10 +123,17 @@ fun ListScreen(
                 condition = selectedCondition,
                 categories = selectedCategories.toList()
             )
-            listViewModel.insert(newItem)
-            Timber.i("New Listing info : $newItem")
-            totalListed += 1
-            Timber.i("All Listings ${listings.toList()}")
+
+            if (listingToEdit == null) {
+                listViewModel.insert(newItem)
+                Timber.i("New Listing info : $newItem")
+                totalListed += 1
+                Timber.i("All Listings ${listings.toList()}")
+            } else {
+                listViewModel.update(newItem)
+                Timber.i("Item ${newItem.id} : $newItem")
+            }
+
             navController.navigate("listings")
         }
     }
