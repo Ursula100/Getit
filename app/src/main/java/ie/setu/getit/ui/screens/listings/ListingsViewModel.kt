@@ -34,10 +34,4 @@ constructor(private val repository: RoomRepository) : ViewModel() {
         }
     }
 
-    fun updateListing(listing: ListingModel) {
-        viewModelScope.launch {
-            repository.update(listing)
-        }
-    }
-
 }
