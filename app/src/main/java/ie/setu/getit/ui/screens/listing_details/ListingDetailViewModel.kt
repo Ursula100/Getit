@@ -47,18 +47,33 @@ class ListingDetailViewModel @Inject constructor(
     }
 
     fun placeBid(amount: Int) {
-        val baseAmount = currentTopBid ?: listing.value?.price ?: 0
-        if (amount <= baseAmount) return
+        val listing = listing.value ?: return
+        val previousTopBid = bids.maxByOrNull { it.amount }
 
-        val newBid = BidModel(
-            listingId = listingId,
-            amount = amount,
-            bidTime = Date(),
-            status = BidStatus.TOP
-        )
+        // New bid must be higher than current top bid, or equal to listing price if no bids exist
+        val baseAmount = previousTopBid?.amount ?: listing.price
+        if (previousTopBid != null && amount <= baseAmount) return
+        if (previousTopBid == null && amount < baseAmount) return
 
         viewModelScope.launch {
-            repository.insertBid(newBid)
+            //Downgrade previous top bid (if exists)
+            previousTopBid?.let {
+                repository.updateBid(it.copy(status = BidStatus.OUTBID))
+            }
+
+            //Add new top bid
+            val newTopBid = BidModel(
+                listingId = listing.id,
+                userId = 1, // placeholder
+                amount = amount,
+                status = BidStatus.TOP,
+                bidTime = Date()
+            )
+            repository.insertBid(newTopBid)
+
+            viewModelScope.launch {
+                repository.insertBid(newTopBid)
+            }
         }
     }
 }

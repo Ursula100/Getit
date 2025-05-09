@@ -9,6 +9,7 @@ data class BidModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val listingId: Int, // foreign key reference to Listing
+    val userId: Int,
     val amount: Int,
     val status: BidStatus = BidStatus.PENDING,
     val bidTime: Date = Date()

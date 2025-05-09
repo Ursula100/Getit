@@ -36,6 +36,9 @@ constructor(
     suspend fun updateBid(bid: BidModel) { bidDAO.update(bid) }
 
     suspend fun deleteBid(bid: BidModel) { bidDAO.delete(bid) }
+
+    fun getBidsForUser(userId: Int): Flow<List<BidModel>> =
+        bidDAO.getBidsForUser(userId)
 }
 
 
