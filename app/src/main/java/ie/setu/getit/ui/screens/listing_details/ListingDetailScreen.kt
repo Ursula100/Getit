@@ -11,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -41,92 +42,124 @@ fun ListingDetailScreen(
         return
     }
 
-    var bidAmount by remember { mutableStateOf("") }
-
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(24.dp),
-        contentPadding = PaddingValues(vertical = 16.dp)
+            .padding(14.dp)
+            .padding( // Extra space
+                start = 24.dp,
+                end = 24.dp
+            ),
+
+        verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         item {
             Image(
                 painter = painterResource(id = R.drawable.list_your_item),
                 contentDescription = "Listing Image",
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(240.dp)
+                    .aspectRatio(16f / 9f)
                     .clip(RoundedCornerShape(12.dp))
             )
         }
 
         item {
             Column {
-                Text(listing!!.title, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
-                Spacer(Modifier.height(4.dp))
+                Text("Title", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Medium)
+                Text(listing!!.title, style = MaterialTheme.typography.headlineSmall)
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text("Location", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Medium)
                 Text(listing!!.location, style = MaterialTheme.typography.bodyMedium)
-                Spacer(Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text("Listed On", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Medium)
                 Text(
-                    "Listed on: ${SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(listing!!.listedOn)}",
-                    style = MaterialTheme.typography.bodySmall
+                    SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(listing!!.listedOn),
+                    style = MaterialTheme.typography.bodyMedium
                 )
             }
         }
 
         item {
             Column {
-                Text("Description", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
-                Spacer(Modifier.height(4.dp))
-                Text(listing!!.description)
+                Text("Description", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Medium)
+                Text(listing!!.description, style = MaterialTheme.typography.bodyLarge)
             }
         }
 
         item {
             Column {
-                Text("Category", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
-                Spacer(Modifier.height(4.dp))
-                Text(listing!!.categories.joinToString { it.name.replace("_", " ").replaceFirstChar { it.uppercase() } })
+                Text("Condition", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Medium)
+                Text(listing!!.condition.name.replace("_", " ").lowercase()
+                    .replaceFirstChar { it.uppercase() }, style = MaterialTheme.typography.bodyLarge)
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text("Categories", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Medium)
+                Text(
+                    listing!!.categories.joinToString { it.name.replace("_", " ").lowercase().replaceFirstChar { c -> c.uppercase() } },
+                    style = MaterialTheme.typography.bodyLarge
+                )
             }
         }
 
         item {
-            Column {
-                Text("Condition", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
-                Spacer(Modifier.height(4.dp))
-                Text(listing!!.condition.name.replace("_", " ").replaceFirstChar { it.uppercase() })
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Column{
+                    Text("Starting Price", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Medium)
+                    Text("€${listing!!.price}", style = MaterialTheme.typography.bodyLarge)
+                }
+                Column{
+                    val topBid = viewModel.currentTopBid
+                    Text("Top Bid", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Medium)
+                    Text("€${topBid ?: "No bids yet"}", style = MaterialTheme.typography.bodyLarge)
+                }
             }
         }
 
         item {
-            val topBid = viewModel.currentTopBid
-            Column {
-                Text("Starting Price: €${listing!!.price}", fontWeight = FontWeight.Medium)
-                Spacer(Modifier.height(4.dp))
-                Text("Top Bid: €${topBid ?: "No bids yet"}")
-            }
-        }
+            var bidAmount by remember { mutableStateOf("") }
 
-        item {
             Column {
+                Text("Place a Bid", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                Spacer(modifier = Modifier.height(8.dp))
                 OutlinedTextField(
                     value = bidAmount,
                     onValueChange = { bidAmount = it },
-                    label = { Text("Your Bid") },
+                    label = { Text("Enter your bid (€)") },
                     modifier = Modifier.fillMaxWidth()
                 )
-                Spacer(Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 Button(
                     onClick = {
                         val amount = bidAmount.toIntOrNull()
-                        val baseAmount = viewModel.currentTopBid ?: listing!!.price
-                        if (amount == null || amount < baseAmount) {
-                            Toast.makeText(context, "Bid must be at least €$baseAmount", Toast.LENGTH_SHORT).show()
-                        } else {
-                            viewModel.placeBid(amount)
-                            bidAmount = ""
-                            Toast.makeText(context, "Bid placed: €$amount", Toast.LENGTH_SHORT).show()
+                        if (amount == null) {
+                            Toast.makeText(context, "Enter a valid amount", Toast.LENGTH_SHORT).show()
                         }
+
+                        val topBid = viewModel.currentTopBid
+                        val minRequired = topBid ?: listing!!.price
+
+                        if (amount != null) {
+                            if (amount < minRequired || (topBid != null && amount == minRequired)) {
+                                Toast.makeText(
+                                    context,
+                                    "Bid must be higher than €$minRequired",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+
+                        if (amount != null) {
+                            viewModel.placeBid(amount)
+                        }
+                        bidAmount = ""
+                        Toast.makeText(context, "Bid placed!", Toast.LENGTH_SHORT).show()
                     },
                     modifier = Modifier.align(Alignment.End)
                 ) {
@@ -137,10 +170,16 @@ fun ListingDetailScreen(
 
         if (bids.isNotEmpty()) {
             item {
-                Text("Bid History", fontWeight = FontWeight.SemiBold)
+                Column {
+                    Text("Bid History", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
             }
             items(bids) { bid ->
-                Text("€${bid.amount} — ${SimpleDateFormat("HH:mm dd MMM", Locale.getDefault()).format(bid.bidTime)}")
+                Text(
+                    text = "€${bid.amount} • ${SimpleDateFormat("dd MMM HH:mm", Locale.getDefault()).format(bid.bidTime)}",
+                    style = MaterialTheme.typography.bodySmall
+                )
             }
         }
     }

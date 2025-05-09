@@ -50,4 +50,4 @@ object ListingDetail : AppDestination {
 
 
 val appNavDrawerDestinations = listOf(Home, Listings, ListItem, About)
-val allDestinations = listOf(Home, Listings, ListItem, About)
+val allDestinations = listOf(Home, Listings, ListItem, About, ListingDetail)

@@ -7,6 +7,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
@@ -22,6 +24,7 @@ import ie.setu.getit.ui.component.navigation.AppNavDrawer
 import ie.setu.getit.ui.component.navigation.Home
 import ie.setu.getit.ui.component.navigation.Listings
 import ie.setu.getit.ui.component.navigation.NavHostProvider
+import ie.setu.getit.ui.component.navigation.allDestinations
 import ie.setu.getit.ui.component.navigation.appNavDrawerDestinations
 import ie.setu.getit.ui.screens.list.ListViewModel
 import ie.setu.getit.ui.screens.listings.ListingsViewModel
@@ -50,13 +53,17 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GetitApp(modifier: Modifier = Modifier, listingsViewModel: ListingsViewModel = hiltViewModel(), listViewModel: ListViewModel = hiltViewModel(), navController: NavHostController = rememberNavController()) {
-
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route ?: Home.route
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    val currentScreen = appNavDrawerDestinations.find { it.route == currentRoute } ?: Home
+    // Match current route with registered AppDestination (handles "/{id}" cases)
+    val currentScreen = allDestinations.find { destination ->
+        currentRoute == destination.route || currentRoute.startsWith("${destination.route}/")
+    } ?: Home
+
+    val isTopLevelDestination = appNavDrawerDestinations.contains(currentScreen)
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -77,13 +84,19 @@ fun GetitApp(modifier: Modifier = Modifier, listingsViewModel: ListingsViewModel
                         containerColor = MaterialTheme.colorScheme.primary
                     ),
                     navigationIcon = {
-                        IconButton(onClick = { scope.launch { drawerState.open() } }) {
-                            Icon(Icons.Filled.Menu, contentDescription = "Menu", tint = Color.White)
+                        if (isTopLevelDestination) {
+                            IconButton(onClick = { scope.launch { drawerState.open() } }) {
+                                Icon(Icons.Filled.Menu, contentDescription = "Menu", tint = Color.White)
+                            }
+                        } else {
+                            IconButton(onClick = { navController.popBackStack() }) {
+                                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
+                            }
                         }
                     },
                     actions = {
                         if (currentScreen == Listings) {
-                            IconButton(onClick = {}) {
+                            IconButton(onClick = { /* Search logic */ }) {
                                 Icon(Icons.Default.Search, contentDescription = "Search", tint = Color.White)
                             }
                         }
@@ -97,7 +110,7 @@ fun GetitApp(modifier: Modifier = Modifier, listingsViewModel: ListingsViewModel
                     paddingValues = paddingValues,
                     listings = listingsViewModel
                 )
-            },
+            }
         )
     }
 }
