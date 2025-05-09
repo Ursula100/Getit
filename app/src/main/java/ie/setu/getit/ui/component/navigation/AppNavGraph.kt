@@ -12,6 +12,7 @@ import androidx.navigation.navArgument
 import ie.setu.getit.ui.screens.about.AboutScreen
 import ie.setu.getit.ui.screens.home.HomeScreen
 import ie.setu.getit.ui.screens.list.ListScreen
+import ie.setu.getit.ui.screens.listing_details.ListingDetailScreen
 import ie.setu.getit.ui.screens.listings.ListingScreen
 import ie.setu.getit.ui.screens.listings.ListingsViewModel
 
@@ -60,6 +61,15 @@ fun NavHostProvider(
             AboutScreen(
                 modifier = Modifier,
             )
+        }
+        composable(route = "${ListingDetail.route}/{id}", arguments = listOf(navArgument("id") { type = NavType.IntType })) { backStackEntry ->
+            val id = backStackEntry.arguments?.getInt("id")
+            if (id != null) {
+                ListingDetailScreen(
+                    navController = navController,
+                    modifier = modifier
+                )
+            }
         }
     }
 }

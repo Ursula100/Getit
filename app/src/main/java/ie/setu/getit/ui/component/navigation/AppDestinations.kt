@@ -40,5 +40,14 @@ object About : AppDestination {
     override val route = "about"
 }
 
+object ListingDetail : AppDestination {
+    override val icon = Icons.Default.Info
+    override val label = "View Listing"
+    override val route = "listing-detail"
+
+    fun withId(id: Int) = "$route/$id"
+}
+
+
 val appNavDrawerDestinations = listOf(Home, Listings, ListItem, About)
 val allDestinations = listOf(Home, Listings, ListItem, About)

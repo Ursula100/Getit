@@ -33,6 +33,6 @@ object RoomModule {
 
 
     @Provides
-    fun provideRoomRepository(listingDAO: ListingDAO):
-            RoomRepository = RoomRepository(listingDAO)
+    fun provideRoomRepository(listingDAO: ListingDAO, bidDAO: BidDAO):
+            RoomRepository = RoomRepository(listingDAO, bidDAO)
 }

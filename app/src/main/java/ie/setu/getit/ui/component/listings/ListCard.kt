@@ -1,5 +1,6 @@
 package ie.setu.getit.ui.component.listings
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -46,7 +47,7 @@ fun ListCard(
     location: String,
     listedON: Date,
     onDeleteClick: () -> Unit,
-    navController: NavHostController
+    navController: NavHostController,
 ) {
     var expanded by remember { mutableStateOf(false) }
     var showDeleteConfirmDialog by remember { mutableStateOf(false) }
@@ -102,7 +103,9 @@ fun ListCard(
                 )
             }
         },
-        modifier = Modifier.padding(4.dp)
+        modifier = Modifier
+                    .padding(4.dp)
+                    .clickable { navController.navigate("listing-detail/$id") },
     )
     HorizontalDivider(color = MaterialTheme.colorScheme.secondary)
 }
