@@ -5,6 +5,7 @@ import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.ui.graphics.vector.ImageVector
 
 interface AppDestination {
@@ -48,6 +49,12 @@ object ListingDetail : AppDestination {
     fun withId(id: Int) = "$route/$id"
 }
 
+object Bids : AppDestination {
+    override val icon = Icons.Filled.AttachMoney
+    override val label = "My Bids"
+    override val route = "bids"
+}
 
-val appNavDrawerDestinations = listOf(Home, Listings, ListItem, About)
-val allDestinations = listOf(Home, Listings, ListItem, About, ListingDetail)
+
+val appNavDrawerDestinations = listOf(Home, Listings, ListItem, Bids, About)
+val allDestinations = listOf(Home, Listings, ListItem, About, ListingDetail, Bids)

@@ -69,7 +69,6 @@ class ListingDetailViewModel @Inject constructor(
                 status = BidStatus.TOP,
                 bidTime = Date()
             )
-            repository.insertBid(newTopBid)
 
             viewModelScope.launch {
                 repository.insertBid(newTopBid)

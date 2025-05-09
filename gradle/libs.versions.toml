@@ -11,6 +11,7 @@ composeBom = "2025.02.00"
 storage = "1.5.0"
 timber = "5.0.1"
 navigationCompose = "2.8.6"
+compose-material = "1.6.1"
 
 #If not prompted, manually update to this version 1.8.0-alpha01
 compose-plugin = "1.8.0-alpha01"
@@ -39,6 +40,8 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose",version.ref = "navigationCompose" }
 androidx-storage = { group = "androidx.test.services", name = "storage", version.ref = "storage" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "compose-material" }
+
 
 #Hilt
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }

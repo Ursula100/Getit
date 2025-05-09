@@ -4,12 +4,14 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.navArgument
 import ie.setu.getit.ui.screens.about.AboutScreen
+import ie.setu.getit.ui.screens.bids.BidsScreen
 import ie.setu.getit.ui.screens.home.HomeScreen
 import ie.setu.getit.ui.screens.list.ListScreen
 import ie.setu.getit.ui.screens.listing_details.ListingDetailScreen
@@ -70,6 +72,12 @@ fun NavHostProvider(
                     modifier = modifier
                 )
             }
+        }
+        composable(route = Bids.route) {
+            BidsScreen(
+                navController = navController,
+                viewModel = hiltViewModel()
+            )
         }
     }
 }
