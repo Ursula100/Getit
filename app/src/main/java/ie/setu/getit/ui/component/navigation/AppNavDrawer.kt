@@ -1,57 +1,63 @@
 package ie.setu.getit.ui.component.navigation
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.List
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import ie.setu.getit.R
-import ie.setu.getit.ui.component.general.ScreenOptions
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 
 @Composable
 fun AppNavDrawer(
-    selectedScreen: ScreenOptions?,
-    onScreenSelected: (ScreenOptions) -> Unit,
+    navController: NavHostController,
+    currentScreen: AppDestination,
     closeDrawer: () -> Unit
 ) {
     ModalDrawerSheet(
         modifier = Modifier.requiredWidth(260.dp)
     ) {
+
+        //initializing the default selected item
+        var navigationSelectedItem by remember { mutableIntStateOf(0) }
+
         DrawerHeader()
         Spacer(modifier = Modifier.height(16.dp))
 
-        DrawerItem("Home", Icons.Default.Home, selectedScreen == ScreenOptions.Home) {
-            onScreenSelected(ScreenOptions.Home)
-            closeDrawer()
+        appNavDrawerDestinations.forEachIndexed { index, navigationItem ->
+            NavigationDrawerItem(
+                selected = navigationItem == currentScreen,
+                shape = MaterialTheme.shapes.medium,
+                colors = NavigationDrawerItemDefaults.colors(
+                    selectedContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f), // Change background color of selected item
+                    unselectedContainerColor = Color.Transparent, // Background for unselected items
+                    unselectedTextColor = MaterialTheme.colorScheme.onSurface, // Default text color
+                    unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant // Default icon color
+                ),
+                label = { Text(text = navigationItem.label) },
+                icon = { Icon(navigationItem.icon, contentDescription = navigationItem.label, tint = MaterialTheme.colorScheme.primary) },
+                onClick = {
+                    navigationSelectedItem = index
+                    navController.navigate(navigationItem.route){
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                    closeDrawer()
+                },
+
+            )
         }
-        DrawerItem("Listings", Icons.AutoMirrored.Filled.List, selectedScreen == ScreenOptions.Listings) {
-            onScreenSelected(ScreenOptions.Listings)
-            closeDrawer()
-        }
-        DrawerItem("About GetIt", Icons.Default.Info, selectedScreen == ScreenOptions.About) {
-            onScreenSelected(ScreenOptions.About)
-            closeDrawer()
-        }
-        /*DrawerItem("Profile", Icons.Default.Person, selectedScreen == ScreenOptions.Profile) {
-            onScreenSelected(ScreenOptions.Profile)
-            closeDrawer()
-        }*/
     }
 }
 
@@ -76,26 +82,4 @@ fun DrawerHeader() {
             color = Color.White
         )
     }
-}
-
-@Composable
-fun DrawerItem(
-    label: String,
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
-    selected: Boolean,
-    onClick: () -> Unit
-) {
-    NavigationDrawerItem(
-        label = { Text(label, style = MaterialTheme.typography.labelLarge) },
-        icon = { Icon(icon, contentDescription = label, tint = MaterialTheme.colorScheme.primary) },
-        selected = selected,
-        onClick = onClick,
-        shape = MaterialTheme.shapes.medium,
-        colors = NavigationDrawerItemDefaults.colors(
-            selectedContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f), // Change background color of selected item
-            unselectedContainerColor = Color.Transparent, // Background for unselected items
-            unselectedTextColor = MaterialTheme.colorScheme.onSurface, // Default text color
-            unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant // Default icon color
-        )
-    )
 }

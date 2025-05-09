@@ -3,19 +3,23 @@ package ie.setu.getit.ui.component.listings
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.Wallpapers
-import ie.setu.getit.data.ItemModel
+import androidx.navigation.NavHost
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import ie.setu.getit.data.ListingModel
 import ie.setu.getit.data.fakeListings
 import ie.setu.getit.ui.theme.GetitTheme
 
 @Composable
 fun ListingsList(
-    listings: SnapshotStateList<ItemModel>,
-    modifier: Modifier = Modifier
+    listings: List<ListingModel>,
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+    onDeleteListing: (ListingModel) -> Unit
 ){
     LazyColumn {
         items(
@@ -25,11 +29,13 @@ fun ListingsList(
             listing ->
             ListCard(
                 id = listing.id,
-                name = listing.name,
+                title = listing.title,
                 description = listing.description,
                 price = listing.price,
                 location = listing.location,
-                listedON = listing.listedOn
+                listedON = listing.listedOn,
+                onDeleteClick = { onDeleteListing(listing) },
+                navController = navController
             )
         }
     }
@@ -39,6 +45,10 @@ fun ListingsList(
 @Composable
 fun ListingsListPreview(){
     GetitTheme {
-        ListingsList(fakeListings.toMutableStateList())
+        ListingsList(
+            fakeListings.toMutableStateList(),
+            onDeleteListing = {},
+            navController = rememberNavController() //built-in function from Jetpack Navigation Compose that provides a mock NavController
+        )
     }
 }

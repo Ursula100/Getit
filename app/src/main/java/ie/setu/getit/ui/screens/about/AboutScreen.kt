@@ -1,4 +1,4 @@
-package ie.setu.getit.ui.screens
+package ie.setu.getit.ui.screens.about
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

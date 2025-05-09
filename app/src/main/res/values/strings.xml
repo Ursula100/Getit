@@ -7,6 +7,11 @@
     <string name="enter_price">Price</string>
     <string name="enter_location">Location</string>
     <string name="listButton">List</string>
-    <string name="empty_list">No Listings Yet!</string>
+    <string name="updateButton">Update</string>
+    <string name="empty_list">Create Your First Listing!</string>
     <string name="fill_all_fields">Fill all required information</string>
+    <string name="confirm_delete">Confirm Delete?</string>
+    <string name="confirm_delete_message">Are you sure you want to delete this listing?</string>
+    <string name="confirm_update">Confirm Update?</string>
+    <string name="confirm_update_message">Are you sure you want to update this listing?</string>
 </resources>

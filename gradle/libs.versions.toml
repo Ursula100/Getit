@@ -1,15 +1,25 @@
 [versions]
-agp = "8.8.0"
-kotlin = "2.0.0"
+agp = "8.8.1"
+kotlin = "2.0.20"
 coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
-activityCompose = "1.10.1"
-composeBom = "2024.04.01"
+activityCompose = "1.10.0"
+composeBom = "2025.02.00"
 storage = "1.5.0"
 timber = "5.0.1"
+navigationCompose = "2.8.6"
+
+#If not prompted, manually update to this version 1.8.0-alpha01
+compose-plugin = "1.8.0-alpha01"
+#V3
+hiltAndroid = "2.52"
+hiltAndroidCompiler = "2.52"
+hiltNavigationCompose = "1.2.0"
+roomRuntime = "2.6.1"
+ksp = "2.0.20-1.0.25"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -26,11 +36,27 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose",version.ref = "navigationCompose" }
 androidx-storage = { group = "androidx.test.services", name = "storage", version.ref = "storage" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+
+#Hilt
+androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompiler" }
+
+#ViewModel
+androidx-lifecycle-viewmodel-savedstate = { module = "androidx.lifecycle:lifecycle-viewmodel-savedstate", version.ref = "lifecycleRuntimeKtx" }
+
+#Room
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
+kotlin-android-ksp = { id = "com.google.devtools.ksp", version.ref ="ksp" }
 
