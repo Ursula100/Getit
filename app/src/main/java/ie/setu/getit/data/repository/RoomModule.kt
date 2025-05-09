@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ie.setu.getit.data.room.AppDatabase
+import ie.setu.getit.data.room.BidDAO
 import ie.setu.getit.data.room.ListingDAO
 import javax.inject.Singleton
 
@@ -25,6 +26,11 @@ object RoomModule {
     @Provides
     fun provideListingDAO(appDatabase: AppDatabase):
             ListingDAO = appDatabase.getListingDAO()
+
+    @Provides
+    fun provideBidDAO(appDatabase: AppDatabase):
+            BidDAO = appDatabase.getBidDAO()
+
 
     @Provides
     fun provideRoomRepository(listingDAO: ListingDAO):
