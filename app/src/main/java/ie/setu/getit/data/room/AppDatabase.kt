@@ -6,7 +6,7 @@ import androidx.room.TypeConverters
 import ie.setu.getit.data.BidModel
 import ie.setu.getit.data.ListingModel
 
-@Database(entities = [ListingModel::class, BidModel::class], version = 3, exportSchema = false)
+@Database(entities = [ListingModel::class, BidModel::class], version = 4, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getListingDAO(): ListingDAO

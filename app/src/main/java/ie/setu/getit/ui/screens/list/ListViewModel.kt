@@ -18,7 +18,7 @@ constructor(
 ) : ViewModel() {
 
     // Holds the listing for edit screen
-    var listing = mutableStateOf(ListingModel())
+    var listing = mutableStateOf(ListingModel(uid = "1"))
 
     // Get the id from the nav graph
     val id: Int? = savedStateHandle["id"]

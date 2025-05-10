@@ -41,6 +41,8 @@ fun ListScreen(
     val context = LocalContext.current
     val listings = listingsViewModel.uiListings.collectAsState().value
 
+    val uid = "1" // simulate user
+
     // check and determine if in edit mode
     val listingToEdit = if (id != null) listViewModel.listing.value else null
     val isEditing = listingToEdit != null
@@ -121,7 +123,8 @@ fun ListScreen(
                 price = price,
                 location = location,
                 condition = selectedCondition,
-                categories = selectedCategories.toList()
+                categories = selectedCategories.toList(),
+                uid = uid,
             )
 
             if (isEditing) {
@@ -343,7 +346,8 @@ fun PreviewListScreen(modifier: Modifier = Modifier, listings: SnapshotStateList
                 price = price,
                 location = location,
                 condition = selectedCondition,
-                categories = selectedCategories.toList()
+                categories = selectedCategories.toList(),
+                uid = "1",
             )
             listings.add(newItem)
             Timber.i("New Listing info : $newItem")

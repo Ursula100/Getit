@@ -16,6 +16,10 @@ constructor(
     fun getAll(): Flow<List<ListingModel>>
             = listingDAO.getAll()
 
+    fun getListingsForUser(userId: Int): Flow<List<ListingModel>> {
+        return listingDAO.getListingsForUser(userId)
+    }
+
     fun get(id: Int): Flow<ListingModel>
             = listingDAO.get(id)
 
