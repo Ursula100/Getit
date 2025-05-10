@@ -8,6 +8,7 @@ import java.util.Date
 data class ListingModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
+    val uid: String,
     val title: String = "",
     val description: String = "",
     val price: Int = 0,
@@ -19,6 +20,7 @@ data class ListingModel(
 
 val fakeListings = List(30) { i ->
     ListingModel(id = 12345 + i,
+        uid = "1",
         "Item $i",
         "N/A",
         i,

@@ -10,17 +10,18 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.navArgument
 import ie.setu.getit.ui.screens.about.AboutScreen
+import ie.setu.getit.ui.screens.bids.BidsScreen
 import ie.setu.getit.ui.screens.home.HomeScreen
 import ie.setu.getit.ui.screens.list.ListScreen
+import ie.setu.getit.ui.screens.listing_details.ListingDetailScreen
 import ie.setu.getit.ui.screens.listings.ListingScreen
-import ie.setu.getit.ui.screens.listings.ListingsViewModel
+import ie.setu.getit.ui.screens.my_listings.MyListingsScreen
 
 @Composable
 fun NavHostProvider(
     modifier: Modifier,
     navController: NavHostController,
     paddingValues: PaddingValues,
-    listings: ListingsViewModel,
 ) {
     NavHost(
         navController = navController,
@@ -28,12 +29,15 @@ fun NavHostProvider(
         modifier = Modifier.padding(paddingValues = paddingValues)) {
 
         composable(route = Home.route) {
-            HomeScreen( modifier = modifier, paddingValues = paddingValues)
+            HomeScreen(
+                modifier = modifier,
+                paddingValues = paddingValues,
+                navController = navController
+            )
         }
         composable(route = ListItem.route) {
             ListScreen(
                 modifier = modifier,
-                listingsViewModel = listings,
                 paddingValues = paddingValues,
                 navController = navController,
             )
@@ -42,7 +46,6 @@ fun NavHostProvider(
             val id = backStackEntry.arguments?.getInt("id")  // Retrieve the id argument
             ListScreen(
                 modifier = modifier,
-                listingsViewModel = listings,
                 paddingValues = paddingValues,
                 navController = navController,
                 id = id // Pass id (nullable) to ListScreen
@@ -51,14 +54,36 @@ fun NavHostProvider(
         composable(route = Listings.route) {
             ListingScreen(
                 modifier = Modifier,
-                listingsViewModel = listings,
                 paddingValues = paddingValues,
-                navController = navController
+                navController = navController,
             )
         }
+
+        composable(route = MyListings.route) {
+            MyListingsScreen(
+                modifier = Modifier,
+                paddingValues = paddingValues,
+                navController = navController,
+            )
+        }
+
         composable(route = About.route) {
             AboutScreen(
                 modifier = Modifier,
+            )
+        }
+        composable(route = "${ListingDetail.route}/{id}", arguments = listOf(navArgument("id") { type = NavType.IntType })) { backStackEntry ->
+            val id = backStackEntry.arguments?.getInt("id")
+            if (id != null) {
+                ListingDetailScreen(
+                    navController = navController,
+                    modifier = modifier
+                )
+            }
+        }
+        composable(route = Bids.route) {
+            BidsScreen(
+                navController = navController,
             )
         }
     }
