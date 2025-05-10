@@ -2,6 +2,7 @@ package ie.setu.getit.ui.screens.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -11,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -21,10 +24,13 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,18 +38,30 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.Wallpapers
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import ie.setu.getit.R
+import ie.setu.getit.ui.component.home.ListingMiniCard
+import ie.setu.getit.ui.component.navigation.Listings
 import ie.setu.getit.ui.theme.GetitTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen (
     modifier: Modifier = Modifier,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    navController: NavHostController,
+    viewModel: HomeViewModel = hiltViewModel()
 ){
+
+    val featuredListings = viewModel.featuredListings.collectAsState().value
 
     //For now, just visual purposes
     //will later break into potentially reusable and more maintainable components
@@ -137,6 +155,42 @@ fun HomeScreen (
                     }
                 }
             }
+            Spacer(Modifier.height(24.dp))
+            // Featured listings (4) and a explore all card
+            Column{
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Text(
+                    text = "Explore Listings",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    items(featuredListings) { listing ->
+                        ListingMiniCard(listing = listing, onClick = {
+                            navController.navigate("listing-detail/${listing.id}")
+                        })
+                    }
+
+                    item {
+                        OutlinedButton(onClick = {
+                            navController.navigate(Listings.route){
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }) {
+                            Text("Show All")
+                        }
+                    }
+                }
+            }
+
         }
     }
 }
@@ -147,7 +201,9 @@ fun HomeScreenPreview(){
     GetitTheme {
         HomeScreen(
             modifier = Modifier,
-            paddingValues = PaddingValues()
+            paddingValues = PaddingValues(),
+            navController = rememberNavController(),
+            viewModel = viewModel()
         )
     }
 }

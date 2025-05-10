@@ -22,7 +22,7 @@ class HomeViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             repository.getAll().collect { allListings ->
-                _featuredListings.value = allListings.take(5)
+                _featuredListings.value = allListings.take(4)
             }
         }
     }

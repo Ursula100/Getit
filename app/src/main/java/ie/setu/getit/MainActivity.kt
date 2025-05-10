@@ -8,14 +8,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -26,8 +24,6 @@ import ie.setu.getit.ui.component.navigation.Listings
 import ie.setu.getit.ui.component.navigation.NavHostProvider
 import ie.setu.getit.ui.component.navigation.allDestinations
 import ie.setu.getit.ui.component.navigation.appNavDrawerDestinations
-import ie.setu.getit.ui.screens.list.ListViewModel
-import ie.setu.getit.ui.screens.listings.ListingsViewModel
 import ie.setu.getit.ui.theme.GetitTheme
 import kotlinx.coroutines.launch
 
@@ -52,7 +48,7 @@ class MainActivity : ComponentActivity() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GetitApp(modifier: Modifier = Modifier, listingsViewModel: ListingsViewModel = hiltViewModel(), listViewModel: ListViewModel = hiltViewModel(), navController: NavHostController = rememberNavController()) {
+fun GetitApp(modifier: Modifier = Modifier, navController: NavHostController = rememberNavController()) {
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route ?: Home.route
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -107,8 +103,7 @@ fun GetitApp(modifier: Modifier = Modifier, listingsViewModel: ListingsViewModel
                 NavHostProvider(
                     modifier = Modifier,
                     navController = navController,
-                    paddingValues = paddingValues,
-                    listings = listingsViewModel
+                    paddingValues = paddingValues
                 )
             }
         )

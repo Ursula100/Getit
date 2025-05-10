@@ -23,7 +23,6 @@ fun NavHostProvider(
     modifier: Modifier,
     navController: NavHostController,
     paddingValues: PaddingValues,
-    listings: ListingsViewModel,
 ) {
     NavHost(
         navController = navController,
@@ -31,12 +30,15 @@ fun NavHostProvider(
         modifier = Modifier.padding(paddingValues = paddingValues)) {
 
         composable(route = Home.route) {
-            HomeScreen( modifier = modifier, paddingValues = paddingValues)
+            HomeScreen(
+                modifier = modifier,
+                paddingValues = paddingValues,
+                navController = navController
+            )
         }
         composable(route = ListItem.route) {
             ListScreen(
                 modifier = modifier,
-                listingsViewModel = listings,
                 paddingValues = paddingValues,
                 navController = navController,
             )
@@ -45,7 +47,6 @@ fun NavHostProvider(
             val id = backStackEntry.arguments?.getInt("id")  // Retrieve the id argument
             ListScreen(
                 modifier = modifier,
-                listingsViewModel = listings,
                 paddingValues = paddingValues,
                 navController = navController,
                 id = id // Pass id (nullable) to ListScreen
@@ -54,9 +55,8 @@ fun NavHostProvider(
         composable(route = Listings.route) {
             ListingScreen(
                 modifier = Modifier,
-                listingsViewModel = listings,
                 paddingValues = paddingValues,
-                navController = navController
+                navController = navController,
             )
         }
         composable(route = About.route) {
@@ -76,7 +76,6 @@ fun NavHostProvider(
         composable(route = Bids.route) {
             BidsScreen(
                 navController = navController,
-                viewModel = hiltViewModel()
             )
         }
     }
