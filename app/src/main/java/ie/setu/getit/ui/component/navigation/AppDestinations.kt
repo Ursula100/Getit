@@ -25,7 +25,7 @@ object ListItem : AppDestination {
 
 object Listings : AppDestination {
     override val icon = Icons.AutoMirrored.Filled.List
-    override val label = "My Listings"
+    override val label = "Explore Listings"
     override val route = "listings"
 }
 
@@ -43,10 +43,16 @@ object About : AppDestination {
 
 object ListingDetail : AppDestination {
     override val icon = Icons.Default.Info
-    override val label = "View Listing"
+    override val label = "View Listing Details"
     override val route = "listing-detail"
 
     fun withId(id: Int) = "$route/$id"
+}
+
+object MyListings : AppDestination {
+    override val icon = Icons.AutoMirrored.Filled.List
+    override val label = "My Listings"
+    override val route = "my-listings"
 }
 
 object Bids : AppDestination {
@@ -56,5 +62,5 @@ object Bids : AppDestination {
 }
 
 
-val appNavDrawerDestinations = listOf(Home, Listings, ListItem, Bids, About)
-val allDestinations = listOf(Home, Listings, ListItem, About, ListingDetail, Bids)
+val appNavDrawerDestinations = listOf(Home, Listings, MyListings, ListItem, Bids, About)
+val allDestinations = listOf(Home, Listings, ListItem, About, ListingDetail, Bids, MyListings)

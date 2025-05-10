@@ -41,6 +41,7 @@ import java.util.Date
 @Composable
 fun ListCard(
     id: Int,
+    uid: String,
     title: String,
     description: String,
     price: Int,
@@ -51,6 +52,8 @@ fun ListCard(
 ) {
     var expanded by remember { mutableStateOf(false) }
     var showDeleteConfirmDialog by remember { mutableStateOf(false) }
+
+    val userId = "1"
 
     ListItem(
         headlineContent = {
@@ -71,36 +74,39 @@ fun ListCard(
             }
         },
         trailingContent = {
-            Box {
-                IconButton(onClick = { expanded = true }) {
-                    Icon(Icons.Default.MoreVert, contentDescription = "More options")
+            if (uid == userId) {
+                Box {
+                    IconButton(onClick = { expanded = true }) {
+                        Icon(Icons.Default.MoreVert, contentDescription = "More options")
+                    }
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text("Update") },
+                            onClick = {
+                                expanded = false
+                                navController.navigate("list/$id")
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Delete") },
+                            onClick = {
+                                expanded = false
+                                showDeleteConfirmDialog = true
+                            }
+                        )
+                    }
                 }
-                DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }
-                ) {
-                    DropdownMenuItem(
-                        text = { Text("Update") },
-                        onClick = {
-                            expanded = false
-                            navController.navigate("list/$id")
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Delete") },
-                        onClick = {
-                            expanded = false
-                            showDeleteConfirmDialog = true
-                        }
+                if (showDeleteConfirmDialog) {
+                    ShowDeleteAlert(
+                        onDismiss = { showDeleteConfirmDialog = false },
+                        onDelete = onDeleteClick
                     )
                 }
             }
-            if (showDeleteConfirmDialog) {
-                ShowDeleteAlert(
-                    onDismiss = { showDeleteConfirmDialog = false },
-                    onDelete = onDeleteClick
-                )
-            }
+
         },
         modifier = Modifier
                     .padding(4.dp)
@@ -134,6 +140,7 @@ fun ListCardPreview() {
     GetitTheme {
         ListCard(
             id = 12345,
+            uid = "1",
             title = "Antique Bread Cutter",
             description = "1860's bread cutter. Cleaned and brought to usable state. Amazing old piece and craftsmanship",
             price = 300,

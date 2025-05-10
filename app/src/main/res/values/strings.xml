@@ -14,4 +14,5 @@
     <string name="confirm_delete_message">Are you sure you want to delete this listing?</string>
     <string name="confirm_update">Confirm Update?</string>
     <string name="confirm_update_message">Are you sure you want to update this listing?</string>
+    <string name="no_general_listings_text">Nothing to see yet. Stay tuned tho!</string>
 </resources>

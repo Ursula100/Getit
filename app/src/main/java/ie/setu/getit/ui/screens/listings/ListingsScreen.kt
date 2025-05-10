@@ -5,17 +5,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -66,21 +61,10 @@ fun ListingScreen (
                         fontSize = 30.sp,
                         lineHeight = 34.sp,
                         textAlign = TextAlign.Center,
-                        text = stringResource(R.string.empty_list)
+                        text = stringResource((R.string.no_general_listings_text))
                     )
                 }
             }
-        }
-
-        FloatingActionButton(
-            onClick = { navController.navigate("list") },
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(16.dp),
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary
-        ) {
-            Icon(Icons.Default.Add, contentDescription = "Add Listing")
         }
     }
 }
@@ -121,7 +105,7 @@ fun PreviewListingScreen(modifier: Modifier = Modifier,
                         fontSize = 30.sp,
                         lineHeight = 34.sp,
                         textAlign = TextAlign.Center,
-                        text = stringResource(R.string.empty_list)
+                        text = stringResource(R.string.no_general_listings_text)
                     )
                 }
             }

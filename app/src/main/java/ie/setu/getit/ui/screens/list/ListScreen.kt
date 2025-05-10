@@ -41,7 +41,7 @@ fun ListScreen(
     val context = LocalContext.current
     val listings = listingsViewModel.uiListings.collectAsState().value
 
-    val uid = "1" // simulate user
+    val uid = "2" // simulate user
 
     // check and determine if in edit mode
     val listingToEdit = if (id != null) listViewModel.listing.value else null
