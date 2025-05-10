@@ -80,7 +80,7 @@ fun HomeScreen (
                     IconButton(onClick = {}) {
                         Icon(
                             Icons.Default.Search,
-                            contentDescription = "" // Add a valid content description
+                            contentDescription = "Search" // Add a valid content description
                         )
                     }
                 },
