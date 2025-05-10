@@ -75,4 +75,9 @@ class ListingDetailViewModel @Inject constructor(
             }
         }
     }
+
+    // Returns the top 5 bids in descending order of amount
+    fun topFiveBids(): List<BidModel> {
+        return bids.sortedByDescending { it.amount }.take(5)
+    }
 }

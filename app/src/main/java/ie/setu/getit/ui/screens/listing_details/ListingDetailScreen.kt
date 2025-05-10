@@ -32,6 +32,8 @@ fun ListingDetailScreen(
     val bids = viewModel.bids
     val context = LocalContext.current
 
+    val userId = "1"
+
     if (listing == null) {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -123,59 +125,62 @@ fun ListingDetailScreen(
         }
 
         item {
-            var bidAmount by remember { mutableStateOf("") }
+            if (listing!!.uid != userId) {
+                var bidAmount by remember { mutableStateOf("") }
 
-            Column {
-                Text("Place a Bid", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                Spacer(modifier = Modifier.height(8.dp))
-                OutlinedTextField(
-                    value = bidAmount,
-                    onValueChange = { bidAmount = it },
-                    label = { Text("Enter your bid (€)") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Button(
-                    onClick = {
-                        val amount = bidAmount.toIntOrNull()
-                        if (amount == null) {
-                            Toast.makeText(context, "Enter a valid amount", Toast.LENGTH_SHORT).show()
-                        }
-
-                        val topBid = viewModel.currentTopBid
-                        val minRequired = topBid ?: listing!!.price
-
-                        if (amount != null) {
-                            if (amount < minRequired || (topBid != null && amount == minRequired)) {
-                                Toast.makeText(
-                                    context,
-                                    "Bid must be higher than €$minRequired",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                Column {
+                    Text("Place a Bid", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    OutlinedTextField(
+                        value = bidAmount,
+                        onValueChange = { bidAmount = it },
+                        label = { Text("Enter your bid (€)") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Button(
+                        onClick = {
+                            val amount = bidAmount.toIntOrNull()
+                            if (amount == null) {
+                                Toast.makeText(context, "Enter a valid whole amount", Toast.LENGTH_SHORT).show()
                             }
-                        }
 
-                        if (amount != null) {
-                            viewModel.placeBid(amount)
-                        }
-                        bidAmount = ""
-                        Toast.makeText(context, "Bid placed!", Toast.LENGTH_SHORT).show()
-                    },
-                    modifier = Modifier.align(Alignment.End)
-                ) {
-                    Text("Place Bid")
+                            val topBid = viewModel.currentTopBid
+                            val minRequired = topBid ?: listing!!.price
+
+                            if (amount != null) {
+                                if (amount < minRequired || (topBid != null && amount == minRequired)) {
+                                    Toast.makeText(
+                                        context,
+                                        "Bid must be higher than €$minRequired",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+
+                            if (amount != null) {
+                                viewModel.placeBid(amount)
+                            }
+                            bidAmount = ""
+                            Toast.makeText(context, "Bid placed!", Toast.LENGTH_SHORT).show()
+                        },
+                        modifier = Modifier.align(Alignment.End)
+                    ) {
+                        Text("Place Bid")
+                    }
                 }
             }
         }
 
         if (bids.isNotEmpty()) {
+            val top5Bids = viewModel.topFiveBids()
             item {
                 Column {
                     Text("Bid History", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }
-            items(bids) { bid ->
+            items(top5Bids) { bid ->
                 Text(
                     text = "€${bid.amount} • ${SimpleDateFormat("dd MMM HH:mm", Locale.getDefault()).format(bid.bidTime)}",
                     style = MaterialTheme.typography.bodySmall
