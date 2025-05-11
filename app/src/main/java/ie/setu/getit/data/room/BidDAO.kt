@@ -1,7 +1,7 @@
 package ie.setu.getit.data.room
 
 import androidx.room.*
-import ie.setu.getit.data.BidModel
+import ie.setu.getit.data.model.BidModel
 import kotlinx.coroutines.flow.Flow
 
 @Dao

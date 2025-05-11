@@ -1,7 +1,7 @@
 package ie.setu.getit.data.repository
 
-import ie.setu.getit.data.BidModel
-import ie.setu.getit.data.ListingModel
+import ie.setu.getit.data.model.BidModel
+import ie.setu.getit.data.model.ListingModel
 import ie.setu.getit.data.room.BidDAO
 import ie.setu.getit.data.room.ListingDAO
 import jakarta.inject.Inject

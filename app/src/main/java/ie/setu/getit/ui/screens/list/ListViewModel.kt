@@ -5,7 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ie.setu.getit.data.ListingModel
+import ie.setu.getit.data.model.ListingModel
 import ie.setu.getit.data.repository.RoomRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject

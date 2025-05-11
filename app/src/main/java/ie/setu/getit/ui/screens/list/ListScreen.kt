@@ -15,10 +15,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import ie.setu.getit.R
-import ie.setu.getit.data.Category
-import ie.setu.getit.data.ItemCondition
-import ie.setu.getit.data.ListingModel
-import ie.setu.getit.data.fakeListings
+import ie.setu.getit.data.model.Category
+import ie.setu.getit.data.model.ItemCondition
+import ie.setu.getit.data.model.ListingModel
+import ie.setu.getit.data.model.fakeListings
 import ie.setu.getit.ui.component.listItem.DescriptionInput
 import ie.setu.getit.ui.component.listItem.ListButton
 import ie.setu.getit.ui.component.listItem.LocationInput

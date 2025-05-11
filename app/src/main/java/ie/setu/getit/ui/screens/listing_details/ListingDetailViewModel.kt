@@ -6,9 +6,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ie.setu.getit.data.BidModel
-import ie.setu.getit.data.BidStatus
-import ie.setu.getit.data.ListingModel
+import ie.setu.getit.data.model.BidModel
+import ie.setu.getit.data.model.BidStatus
+import ie.setu.getit.data.model.ListingModel
 import ie.setu.getit.data.repository.RoomRepository
 import kotlinx.coroutines.launch
 import java.util.Date

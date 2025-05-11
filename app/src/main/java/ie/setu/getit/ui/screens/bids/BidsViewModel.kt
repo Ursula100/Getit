@@ -4,8 +4,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ie.setu.getit.data.BidModel
-import ie.setu.getit.data.BidStatus
+import ie.setu.getit.data.model.BidModel
+import ie.setu.getit.data.model.BidStatus
 import ie.setu.getit.data.repository.RoomRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject

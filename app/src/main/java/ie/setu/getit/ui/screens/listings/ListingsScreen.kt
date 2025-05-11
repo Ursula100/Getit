@@ -23,8 +23,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import ie.setu.getit.R
-import ie.setu.getit.data.ListingModel
-import ie.setu.getit.data.fakeListings
+import ie.setu.getit.data.model.ListingModel
+import ie.setu.getit.data.model.fakeListings
 import ie.setu.getit.ui.component.general.Centre
 import ie.setu.getit.ui.component.listings.ListingsList
 import ie.setu.getit.ui.theme.GetitTheme

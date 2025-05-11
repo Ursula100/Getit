@@ -7,11 +7,10 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.Wallpapers
-import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import ie.setu.getit.data.ListingModel
-import ie.setu.getit.data.fakeListings
+import ie.setu.getit.data.model.ListingModel
+import ie.setu.getit.data.model.fakeListings
 import ie.setu.getit.ui.theme.GetitTheme
 
 @Composable

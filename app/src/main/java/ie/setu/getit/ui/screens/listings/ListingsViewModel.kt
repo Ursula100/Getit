@@ -3,7 +3,7 @@ package ie.setu.getit.ui.screens.listings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ie.setu.getit.data.ListingModel
+import ie.setu.getit.data.model.ListingModel
 import ie.setu.getit.data.repository.RoomRepository
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -1,8 +1,8 @@
 package ie.setu.getit.data.room
 
 import androidx.room.TypeConverter
-import ie.setu.getit.data.Category
-import ie.setu.getit.data.ItemCondition
+import ie.setu.getit.data.model.Category
+import ie.setu.getit.data.model.ItemCondition
 import java.util.Date
 
 class Converters {

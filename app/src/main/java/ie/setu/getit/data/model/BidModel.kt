@@ -1,4 +1,4 @@
-package ie.setu.getit.data
+package ie.setu.getit.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
