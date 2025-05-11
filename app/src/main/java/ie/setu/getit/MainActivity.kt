@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
@@ -13,6 +14,7 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
@@ -54,15 +56,36 @@ fun GetitApp(
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    val firebaseAuth = FirebaseAuth.getInstance()
-    val isAuthenticated = firebaseAuth.currentUser != null
-
-    // Check if current screen is auth (login/register)
     val isAuthScreen = currentRoute == "login" || currentRoute == "register"
 
-    // Redirect to login if unauthenticated and not on login/register already
+    var isAuthenticated by remember { mutableStateOf<Boolean?>(null) }
+
+    // Perform Firebase check once and update local state safely
+    LaunchedEffect(Unit) {
+        try {
+            val user = FirebaseAuth.getInstance().currentUser
+            isAuthenticated = user != null
+        } catch (e: Exception) {
+            isAuthenticated = false
+        }
+    }
+
+    // Block UI until Firebase finishes checking
+    if (isAuthenticated == null) {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            Box(contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
+        }
+        return
+    }
+
+    // Navigate away if user not logged in
     LaunchedEffect(isAuthenticated, currentRoute) {
-        if (!isAuthenticated && !isAuthScreen) {
+        if (!isAuthenticated!! && !isAuthScreen) {
             navController.navigate("login") {
                 popUpTo(0) { inclusive = true }
             }
