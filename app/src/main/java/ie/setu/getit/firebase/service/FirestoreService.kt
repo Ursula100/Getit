@@ -1,6 +1,7 @@
 package ie.setu.getit.firebase.service
 
 import ie.setu.getit.data.model.BidModel
+import ie.setu.getit.data.model.BidStatus
 import ie.setu.getit.data.model.ListingModel
 import ie.setu.getit.firebase.auth.Response
 
@@ -14,6 +15,7 @@ interface FirestoreService {
     suspend fun deleteListing(listingId: String): Response<Boolean>
 
     suspend fun saveBid(bid: BidModel): Response<Boolean>
-    suspend fun getBidsForListing(listingId: Int): Response<List<BidModel>>
+    suspend fun getBidsForListing(listingId: String): Response<List<BidModel>>
     suspend fun getBidsForUser(userId: String): Response<List<BidModel>>
+    suspend fun updateBidStatus(bidId: String, newStatus: BidStatus): Response<Boolean>
 }

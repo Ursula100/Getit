@@ -2,6 +2,7 @@ package ie.setu.getit.firebase.database
 
 import com.google.firebase.firestore.FirebaseFirestore
 import ie.setu.getit.data.model.BidModel
+import ie.setu.getit.data.model.BidStatus
 import ie.setu.getit.data.model.ListingModel
 import ie.setu.getit.firebase.auth.Response
 import ie.setu.getit.firebase.service.FirestoreService
@@ -85,7 +86,7 @@ class FirestoreRepository @Inject constructor(
         }
     }
 
-    override suspend fun getBidsForListing(listingId: Int): Response<List<BidModel>> {
+    override suspend fun getBidsForListing(listingId: String): Response<List<BidModel>> {
         return try {
             val snapshot = firestore.collection("bids")
                 .whereEqualTo("listingId", listingId)
@@ -98,14 +99,26 @@ class FirestoreRepository @Inject constructor(
         }
     }
 
-    override suspend fun getBidsForUser(id: String): Response<List<BidModel>> {
+    override suspend fun getBidsForUser(userId: String): Response<List<BidModel>> {
         return try {
             val snapshot = firestore.collection("bids")
-                .whereEqualTo("id", id)
+                .whereEqualTo("id", userId)
                 .get()
                 .await()
             val bids = snapshot.toObjects(BidModel::class.java)
             Response.Success(bids)
+        } catch (e: Exception) {
+            Response.Failure(e)
+        }
+    }
+
+    override suspend fun updateBidStatus(bidId: String, newStatus: BidStatus): Response<Boolean> {
+        return try {
+            firestore.collection("bids")
+                .document(bidId)
+                .update("status", newStatus.name) // Store as string
+                .await()
+            Response.Success(true)
         } catch (e: Exception) {
             Response.Failure(e)
         }
