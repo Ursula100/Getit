@@ -108,7 +108,7 @@ class FirestoreRepository @Inject constructor(
     override suspend fun getBidsForUser(userId: String): Response<List<BidModel>> {
         return try {
             val snapshot = firestore.collection("bids")
-                .whereEqualTo("id", userId)
+                .whereEqualTo("userId", userId)
                 .get()
                 .await()
             val bids = snapshot.toObjects(BidModel::class.java)
