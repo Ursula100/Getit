@@ -11,25 +11,25 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import ie.setu.getit.firebase.service.AuthService
 
 @Composable
 fun AppNavDrawer(
     navController: NavHostController,
     currentScreen: AppDestination,
-    closeDrawer: () -> Unit
+    closeDrawer: () -> Unit,
+    authService: AuthService
 ) {
-    ModalDrawerSheet(
-        modifier = Modifier.requiredWidth(260.dp)
-    ) {
+    val userName = authService.getCurrentUser()?.displayName
 
-        //initializing the default selected item
-        var navigationSelectedItem by remember { mutableIntStateOf(0) }
+    var navigationSelectedItem by remember { mutableIntStateOf(0) }
 
-        DrawerHeader()
+    ModalDrawerSheet(modifier = Modifier.requiredWidth(260.dp)) {
+        DrawerHeader(userName)
+
         Spacer(modifier = Modifier.height(16.dp))
 
         appNavDrawerDestinations.forEachIndexed { index, navigationItem ->
@@ -37,16 +37,20 @@ fun AppNavDrawer(
                 selected = navigationItem == currentScreen,
                 shape = MaterialTheme.shapes.medium,
                 colors = NavigationDrawerItemDefaults.colors(
-                    selectedContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f), // Change background color of selected item
-                    unselectedContainerColor = Color.Transparent, // Background for unselected items
-                    unselectedTextColor = MaterialTheme.colorScheme.onSurface, // Default text color
-                    unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant // Default icon color
+                    selectedContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
+                    unselectedContainerColor = Color.Transparent
                 ),
-                label = { Text(text = navigationItem.label) },
-                icon = { Icon(navigationItem.icon, contentDescription = navigationItem.label, tint = MaterialTheme.colorScheme.primary) },
+                label = { Text(navigationItem.label) },
+                icon = {
+                    Icon(
+                        navigationItem.icon,
+                        contentDescription = navigationItem.label,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                },
                 onClick = {
                     navigationSelectedItem = index
-                    navController.navigate(navigationItem.route){
+                    navController.navigate(navigationItem.route) {
                         popUpTo(navController.graph.findStartDestination().id) {
                             saveState = true
                         }
@@ -54,31 +58,52 @@ fun AppNavDrawer(
                         restoreState = true
                     }
                     closeDrawer()
-                },
-
+                }
             )
+        }
+
+        Spacer(Modifier.weight(1f)) // Push logout button to bottom
+
+        Divider()
+
+        TextButton(
+            onClick = {
+                authService.logout()
+                navController.navigate("login") {
+                    popUpTo(0) { inclusive = true }
+                }
+                closeDrawer()
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Text("Logout", color = MaterialTheme.colorScheme.error)
         }
     }
 }
 
 @Composable
-fun DrawerHeader() {
+fun DrawerHeader(userName: String?) {
     Column(
-        verticalArrangement = Arrangement.Center,
-        //horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                brush = Brush.horizontalGradient(
-                    colors = listOf(Color(0xFF10851A), Color(0xFF1C8C40)) // Example gradient colors
+                Brush.horizontalGradient(
+                    colors = listOf(Color(0xFF10851A), Color(0xFF1C8C40))
                 )
             )
             .padding(16.dp)
     ) {
         Text(
             text = "GetIt",
-            textAlign = TextAlign.Center,
             style = MaterialTheme.typography.titleLarge,
+            color = Color.White
+        )
+        Spacer(Modifier.height(4.dp))
+        Text(
+            text = userName ?: "Guest",
+            style = MaterialTheme.typography.bodyMedium,
             color = Color.White
         )
     }

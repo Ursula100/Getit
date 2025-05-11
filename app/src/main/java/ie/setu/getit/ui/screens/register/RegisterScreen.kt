@@ -24,8 +24,10 @@ fun RegisterScreen(
 
     if (uiState.success) {
         Toast.makeText(context, "Registration successful", Toast.LENGTH_SHORT).show()
-        // Navigate to profile or login
-        // navController.navigate("profile")
+        // Navigate to login and clear back stack
+        navController.navigate("login") {
+            popUpTo("register") { inclusive = true }
+        }
     }
 
     Column(

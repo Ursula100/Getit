@@ -67,8 +67,6 @@ class RegisterViewModel @Inject constructor(
                 }
 
                 is Response.Loading -> {
-                    // Optional: You typically don't get this here, but you must handle it
-                    _uiState.update { it.copy(isLoading = true) }
                 }
             }
         }

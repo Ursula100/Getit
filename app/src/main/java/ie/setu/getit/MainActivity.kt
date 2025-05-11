@@ -22,12 +22,16 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
+import ie.setu.getit.firebase.service.AuthService
 import ie.setu.getit.ui.component.navigation.*
 import ie.setu.getit.ui.theme.GetitTheme
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject
+    lateinit var authService: AuthService
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -37,7 +41,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    GetitApp(modifier = Modifier)
+                    GetitApp(modifier = Modifier, authService = authService)
                 }
             }
         }
@@ -49,7 +53,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GetitApp(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    authService: AuthService
 ) {
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route ?: Home.route
@@ -60,14 +65,8 @@ fun GetitApp(
 
     var isAuthenticated by remember { mutableStateOf<Boolean?>(null) }
 
-    // Perform Firebase check once and update local state safely
     LaunchedEffect(Unit) {
-        try {
-            val user = FirebaseAuth.getInstance().currentUser
-            isAuthenticated = user != null
-        } catch (e: Exception) {
-            isAuthenticated = false
-        }
+        isAuthenticated = FirebaseAuth.getInstance().currentUser != null
     }
 
     // Block UI until Firebase finishes checking
@@ -99,7 +98,7 @@ fun GetitApp(
 
     val isTopLevelDestination = appNavDrawerDestinations.contains(currentScreen)
 
-    if (isAuthScreen) {
+    if (isAuthScreen || !isAuthenticated!!) {
         // Auth screens – no TopBar or Drawer
         NavHostProvider(
             modifier = Modifier,
@@ -114,7 +113,8 @@ fun GetitApp(
                 AppNavDrawer(
                     navController = navController,
                     currentScreen = currentScreen,
-                    closeDrawer = { scope.launch { drawerState.close() } }
+                    closeDrawer = { scope.launch { drawerState.close() } },
+                    authService = authService
                 )
             }
         ) {
