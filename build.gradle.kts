@@ -5,4 +5,5 @@ plugins {
     alias(libs.plugins.kotlin.compose) apply false
     alias(libs.plugins.hilt.android) apply false
     alias(libs.plugins.kotlin.android.ksp) apply false
+    alias(libs.plugins.google.gms.google.services) apply false
 }

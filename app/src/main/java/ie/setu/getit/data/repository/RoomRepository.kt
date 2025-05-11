@@ -1,7 +1,7 @@
 package ie.setu.getit.data.repository
 
-import ie.setu.getit.data.BidModel
-import ie.setu.getit.data.ListingModel
+import ie.setu.getit.data.model.BidModel
+import ie.setu.getit.data.model.ListingModel
 import ie.setu.getit.data.room.BidDAO
 import ie.setu.getit.data.room.ListingDAO
 import jakarta.inject.Inject
@@ -16,7 +16,7 @@ constructor(
     fun getAll(): Flow<List<ListingModel>>
             = listingDAO.getAll()
 
-    fun getListingsForUser(userId: Int): Flow<List<ListingModel>> {
+    fun getListingsForUser(userId: String): Flow<List<ListingModel>> {
         return listingDAO.getListingsForUser(userId)
     }
 
@@ -41,7 +41,7 @@ constructor(
 
     suspend fun deleteBid(bid: BidModel) { bidDAO.delete(bid) }
 
-    fun getBidsForUser(userId: Int): Flow<List<BidModel>> =
+    fun getBidsForUser(userId: String): Flow<List<BidModel>> =
         bidDAO.getBidsForUser(userId)
 }
 

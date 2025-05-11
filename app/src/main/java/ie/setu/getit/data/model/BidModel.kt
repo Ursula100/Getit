@@ -1,4 +1,4 @@
-package ie.setu.getit.data
+package ie.setu.getit.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -6,11 +6,11 @@ import java.util.*
 
 @Entity
 data class BidModel(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
-    val listingId: Int, // foreign key reference to Listing
-    val userId: Int,
-    val amount: Int,
+    @PrimaryKey
+    val id: String = UUID.randomUUID().toString(),
+    val listingId: String = "", // reference to Listing
+    val userId: String = "",
+    val amount: Int = 1,
     val status: BidStatus = BidStatus.PENDING,
     val bidTime: Date = Date()
 )

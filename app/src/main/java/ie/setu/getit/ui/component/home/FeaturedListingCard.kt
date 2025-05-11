@@ -16,7 +16,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import ie.setu.getit.R
-import ie.setu.getit.data.ListingModel
+import ie.setu.getit.data.model.ListingModel
 import androidx.compose.foundation.layout.*
 import androidx.compose.ui.text.font.FontWeight
 

@@ -9,19 +9,23 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.navArgument
+import ie.setu.getit.firebase.service.AuthService
 import ie.setu.getit.ui.screens.about.AboutScreen
 import ie.setu.getit.ui.screens.bids.BidsScreen
 import ie.setu.getit.ui.screens.home.HomeScreen
 import ie.setu.getit.ui.screens.list.ListScreen
 import ie.setu.getit.ui.screens.listing_details.ListingDetailScreen
 import ie.setu.getit.ui.screens.listings.ListingScreen
+import ie.setu.getit.ui.screens.login.LoginScreen
 import ie.setu.getit.ui.screens.my_listings.MyListingsScreen
+import ie.setu.getit.ui.screens.register.RegisterScreen
 
 @Composable
 fun NavHostProvider(
     modifier: Modifier,
     navController: NavHostController,
     paddingValues: PaddingValues,
+    authService: AuthService
 ) {
     NavHost(
         navController = navController,
@@ -40,15 +44,17 @@ fun NavHostProvider(
                 modifier = modifier,
                 paddingValues = paddingValues,
                 navController = navController,
+                authService = authService,
             )
         }
-        composable(route = "${ListItem.route}/{id}", arguments = listOf(navArgument("id") { type = NavType.IntType })) { backStackEntry ->
-            val id = backStackEntry.arguments?.getInt("id")  // Retrieve the id argument
+        composable(route = "${ListItem.route}/{id}", arguments = listOf(navArgument("id") { type = NavType.StringType })) { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("id")  // Retrieve the id argument
             ListScreen(
                 modifier = modifier,
                 paddingValues = paddingValues,
                 navController = navController,
-                id = id // Pass id (nullable) to ListScreen
+                id = id,
+                authService = authService // Pass id (nullable) to ListScreen
             )
         }
         composable(route = Listings.route) {
@@ -56,6 +62,7 @@ fun NavHostProvider(
                 modifier = Modifier,
                 paddingValues = paddingValues,
                 navController = navController,
+                authService = authService,
             )
         }
 
@@ -64,6 +71,7 @@ fun NavHostProvider(
                 modifier = Modifier,
                 paddingValues = paddingValues,
                 navController = navController,
+                authService = authService,
             )
         }
 
@@ -72,17 +80,29 @@ fun NavHostProvider(
                 modifier = Modifier,
             )
         }
-        composable(route = "${ListingDetail.route}/{id}", arguments = listOf(navArgument("id") { type = NavType.IntType })) { backStackEntry ->
-            val id = backStackEntry.arguments?.getInt("id")
+        composable(route = "${ListingDetail.route}/{id}", arguments = listOf(navArgument("id") { type = NavType.StringType })) { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("id")
             if (id != null) {
                 ListingDetailScreen(
                     navController = navController,
-                    modifier = modifier
+                    modifier = modifier,
+                    authService = authService
                 )
             }
         }
         composable(route = Bids.route) {
             BidsScreen(
+                navController = navController,
+            )
+        }
+        composable(route = Login.route) {
+            LoginScreen(
+                navController = navController,
+            )
+        }
+
+        composable(route = Register.route) {
+            RegisterScreen(
                 navController = navController,
             )
         }

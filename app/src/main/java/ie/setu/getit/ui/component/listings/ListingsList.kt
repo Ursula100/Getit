@@ -7,11 +7,10 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.Wallpapers
-import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import ie.setu.getit.data.ListingModel
-import ie.setu.getit.data.fakeListings
+import ie.setu.getit.data.model.ListingModel
+import ie.setu.getit.data.model.fakeListings
 import ie.setu.getit.ui.theme.GetitTheme
 
 @Composable
@@ -19,7 +18,8 @@ fun ListingsList(
     listings: List<ListingModel>,
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    onDeleteListing: (ListingModel) -> Unit
+    onDeleteListing: (ListingModel) -> Unit,
+    loggedUserId: String,
 ){
     LazyColumn {
         items(
@@ -36,7 +36,8 @@ fun ListingsList(
                 location = listing.location,
                 listedON = listing.listedOn,
                 onDeleteClick = { onDeleteListing(listing) },
-                navController = navController
+                navController = navController,
+                loggedUserId = loggedUserId
             )
         }
     }
@@ -48,8 +49,9 @@ fun ListingsListPreview(){
     GetitTheme {
         ListingsList(
             fakeListings.toMutableStateList(),
+            navController = rememberNavController(),
             onDeleteListing = {},
-            navController = rememberNavController() //built-in function from Jetpack Navigation Compose that provides a mock NavController
+            loggedUserId = "1" //built-in function from Jetpack Navigation Compose that provides a mock NavController
         )
     }
 }

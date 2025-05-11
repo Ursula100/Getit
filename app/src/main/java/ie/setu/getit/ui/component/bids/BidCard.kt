@@ -11,8 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import ie.setu.getit.data.BidModel
-import ie.setu.getit.data.BidStatus
+import ie.setu.getit.data.model.BidModel
+import ie.setu.getit.data.model.BidStatus
 import java.text.SimpleDateFormat
 import java.util.Locale
 
