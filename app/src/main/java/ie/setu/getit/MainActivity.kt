@@ -66,7 +66,7 @@ fun GetitApp(
     var isAuthenticated by remember { mutableStateOf<Boolean?>(null) }
 
     LaunchedEffect(Unit) {
-        isAuthenticated = FirebaseAuth.getInstance().currentUser != null
+        isAuthenticated = authService.getCurrentUserId() != null
     }
 
     // Block UI until Firebase finishes checking
@@ -103,7 +103,8 @@ fun GetitApp(
         NavHostProvider(
             modifier = Modifier,
             navController = navController,
-            paddingValues = PaddingValues()
+            paddingValues = PaddingValues(),
+            authService = authService
         )
     } else {
         // All other screens with Scaffold and Drawer
@@ -150,7 +151,8 @@ fun GetitApp(
                     NavHostProvider(
                         modifier = Modifier,
                         navController = navController,
-                        paddingValues = paddingValues
+                        paddingValues = paddingValues,
+                        authService = authService
                     )
                 }
             )

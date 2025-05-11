@@ -10,7 +10,7 @@ interface BidDAO {
     fun getBidsForListing(listingId: Int): Flow<List<BidModel>>
 
     @Query("SELECT * FROM bidmodel WHERE userId = :userId")
-    fun getBidsForUser(userId: Int): Flow<List<BidModel>>
+    fun getBidsForUser(userId: String): Flow<List<BidModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(bid: BidModel)

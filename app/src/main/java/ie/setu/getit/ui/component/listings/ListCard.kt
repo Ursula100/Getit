@@ -49,11 +49,10 @@ fun ListCard(
     listedON: Date,
     onDeleteClick: () -> Unit,
     navController: NavHostController,
+    loggedUserId: String
 ) {
     var expanded by remember { mutableStateOf(false) }
     var showDeleteConfirmDialog by remember { mutableStateOf(false) }
-
-    val userId = "1"
 
     ListItem(
         headlineContent = {
@@ -74,7 +73,7 @@ fun ListCard(
             }
         },
         trailingContent = {
-            if (uid == userId) {
+            if (uid == loggedUserId) {
                 Box {
                     IconButton(onClick = { expanded = true }) {
                         Icon(Icons.Default.MoreVert, contentDescription = "More options")
@@ -147,7 +146,8 @@ fun ListCardPreview() {
             location = "Waterford, Ireland",
             listedON = Date(),
             navController = rememberNavController(),
-            onDeleteClick = { }
+            onDeleteClick = { },
+            loggedUserId = "1"
         )
     }
 }

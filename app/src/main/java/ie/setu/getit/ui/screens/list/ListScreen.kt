@@ -13,17 +13,20 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import ie.setu.getit.R
 import ie.setu.getit.data.model.Category
 import ie.setu.getit.data.model.ItemCondition
 import ie.setu.getit.data.model.ListingModel
 import ie.setu.getit.data.model.fakeListings
+import ie.setu.getit.firebase.service.AuthService
 import ie.setu.getit.ui.component.listItem.DescriptionInput
 import ie.setu.getit.ui.component.listItem.ListButton
 import ie.setu.getit.ui.component.listItem.LocationInput
 import ie.setu.getit.ui.component.listItem.TitleInput
 import ie.setu.getit.ui.component.listItem.PriceInput
+import ie.setu.getit.ui.component.navigation.MyListings
 import ie.setu.getit.ui.screens.listings.ListingsViewModel
 import ie.setu.getit.ui.theme.GetitTheme
 import timber.log.Timber
@@ -36,12 +39,13 @@ fun ListScreen(
     listViewModel: ListViewModel = hiltViewModel(),
     paddingValues: PaddingValues,
     navController: NavHostController,
+    authService: AuthService,
     id: Int? = null
 ) {
     val context = LocalContext.current
     val listings = listingsViewModel.uiListings.collectAsState().value
 
-    val uid = "2" // simulate user
+    val uid = authService.getCurrentUserId()!! // trusting uid is always be available if user is logged in
 
     // check and determine if in edit mode
     val listingToEdit = if (id != null) listViewModel.listing.value else null
@@ -133,7 +137,13 @@ fun ListScreen(
                 listViewModel.insert(newItem)
             }
 
-            navController.navigate("listings")
+            navController.navigate(MyListings.route) {
+                popUpTo(navController.graph.findStartDestination().id) {
+                    saveState = true
+                }
+                launchSingleTop = true
+                restoreState = true
+            }
         }
     }
 

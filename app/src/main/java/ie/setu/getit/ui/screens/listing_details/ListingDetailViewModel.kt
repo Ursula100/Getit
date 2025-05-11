@@ -10,6 +10,7 @@ import ie.setu.getit.data.model.BidModel
 import ie.setu.getit.data.model.BidStatus
 import ie.setu.getit.data.model.ListingModel
 import ie.setu.getit.data.repository.RoomRepository
+import ie.setu.getit.firebase.service.AuthService
 import kotlinx.coroutines.launch
 import java.util.Date
 import javax.inject.Inject
@@ -17,10 +18,13 @@ import javax.inject.Inject
 @HiltViewModel
 class ListingDetailViewModel @Inject constructor(
     private val repository: RoomRepository,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
+    authService: AuthService
 ) : ViewModel() {
 
     private val listingId: Int = checkNotNull(savedStateHandle["id"])
+
+    private val loggedUserId = authService.getCurrentUserId()!!
 
     var listing = mutableStateOf<ListingModel?>(null)
         private set
@@ -64,7 +68,7 @@ class ListingDetailViewModel @Inject constructor(
             //Add new top bid
             val newTopBid = BidModel(
                 listingId = listing.id,
-                userId = 1, // placeholder
+                userId = loggedUserId, // placeholder
                 amount = amount,
                 status = BidStatus.TOP,
                 bidTime = Date()

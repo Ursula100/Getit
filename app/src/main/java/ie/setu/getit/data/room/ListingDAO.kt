@@ -18,7 +18,7 @@ interface ListingDAO {
     fun getAll(): Flow<List<ListingModel>>
 
     @Query("SELECT * FROM listingmodel WHERE uid = :userId")
-    fun getListingsForUser(userId: Int): Flow<List<ListingModel>>
+    fun getListingsForUser(userId: String): Flow<List<ListingModel>>
 
     @Insert
     suspend fun insert(listing: ListingModel)

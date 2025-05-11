@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import ie.setu.getit.R
+import ie.setu.getit.firebase.service.AuthService
 import ie.setu.getit.ui.component.general.Centre
 import ie.setu.getit.ui.component.listings.ListingsList
 
@@ -31,9 +32,12 @@ fun MyListingsScreen(
     modifier: Modifier = Modifier,
     viewModel: MyListingsViewModel = hiltViewModel(),
     paddingValues: PaddingValues,
-    navController: NavHostController
+    navController: NavHostController,
+    authService: AuthService
 ) {
     val listings = viewModel.userListings.collectAsState().value
+
+    val loggedUserId = authService.getCurrentUserId()!!
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = modifier.padding(start = 24.dp, end = 24.dp)) {
@@ -41,7 +45,9 @@ fun MyListingsScreen(
                 ListingsList(
                     listings = listings,
                     navController = navController,
-                    onDeleteListing = { viewModel.deleteListing(it) }
+                    onDeleteListing = { viewModel.deleteListing(it) },
+                    modifier = modifier,
+                    loggedUserId = loggedUserId,
                 )
             } else {
                 Centre(Modifier.fillMaxSize()) {

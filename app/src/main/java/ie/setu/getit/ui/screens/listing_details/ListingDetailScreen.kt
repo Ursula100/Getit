@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import ie.setu.getit.R
+import ie.setu.getit.firebase.service.AuthService
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -27,12 +28,13 @@ fun ListingDetailScreen(
     navController: NavHostController,
     modifier: Modifier,
     viewModel: ListingDetailViewModel = hiltViewModel(),
+    authService: AuthService
 ) {
     val listing by viewModel.listing
     val bids = viewModel.bids
     val context = LocalContext.current
 
-    val userId = "1"
+    val userId = authService.getCurrentUserId()!! /// trusting uid is always be available if user is logged in
 
     if (listing == null) {
         Box(
@@ -156,13 +158,12 @@ fun ListingDetailScreen(
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 }
-                            }
-
-                            if (amount != null) {
-                                viewModel.placeBid(amount)
+                                else {
+                                    viewModel.placeBid(amount)
+                                    Toast.makeText(context, "Bid placed!", Toast.LENGTH_SHORT).show()
+                                }
                             }
                             bidAmount = ""
-                            Toast.makeText(context, "Bid placed!", Toast.LENGTH_SHORT).show()
                         },
                         modifier = Modifier.align(Alignment.End)
                     ) {

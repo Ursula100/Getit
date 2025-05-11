@@ -18,7 +18,8 @@ fun ListingsList(
     listings: List<ListingModel>,
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    onDeleteListing: (ListingModel) -> Unit
+    onDeleteListing: (ListingModel) -> Unit,
+    loggedUserId: String,
 ){
     LazyColumn {
         items(
@@ -35,7 +36,8 @@ fun ListingsList(
                 location = listing.location,
                 listedON = listing.listedOn,
                 onDeleteClick = { onDeleteListing(listing) },
-                navController = navController
+                navController = navController,
+                loggedUserId = loggedUserId
             )
         }
     }
@@ -47,8 +49,9 @@ fun ListingsListPreview(){
     GetitTheme {
         ListingsList(
             fakeListings.toMutableStateList(),
+            navController = rememberNavController(),
             onDeleteListing = {},
-            navController = rememberNavController() //built-in function from Jetpack Navigation Compose that provides a mock NavController
+            loggedUserId = "1" //built-in function from Jetpack Navigation Compose that provides a mock NavController
         )
     }
 }

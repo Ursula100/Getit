@@ -7,15 +7,17 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import ie.setu.getit.data.model.BidModel
 import ie.setu.getit.data.model.BidStatus
 import ie.setu.getit.data.repository.RoomRepository
+import ie.setu.getit.firebase.service.AuthService
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class BidsViewModel @Inject constructor(
-    private val repository: RoomRepository
+    private val repository: RoomRepository,
+    authService: AuthService
 ) : ViewModel() {
 
-    private val userId = 1 // Simulate logged-in user
+    private val userId = authService.getCurrentUserId()!! // Simulate logged-in user
 
     var myBids = mutableStateListOf<BidModel>()
 

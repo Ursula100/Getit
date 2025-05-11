@@ -9,6 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.navArgument
+import ie.setu.getit.firebase.service.AuthService
 import ie.setu.getit.ui.screens.about.AboutScreen
 import ie.setu.getit.ui.screens.bids.BidsScreen
 import ie.setu.getit.ui.screens.home.HomeScreen
@@ -24,6 +25,7 @@ fun NavHostProvider(
     modifier: Modifier,
     navController: NavHostController,
     paddingValues: PaddingValues,
+    authService: AuthService
 ) {
     NavHost(
         navController = navController,
@@ -42,6 +44,7 @@ fun NavHostProvider(
                 modifier = modifier,
                 paddingValues = paddingValues,
                 navController = navController,
+                authService = authService,
             )
         }
         composable(route = "${ListItem.route}/{id}", arguments = listOf(navArgument("id") { type = NavType.IntType })) { backStackEntry ->
@@ -50,7 +53,8 @@ fun NavHostProvider(
                 modifier = modifier,
                 paddingValues = paddingValues,
                 navController = navController,
-                id = id // Pass id (nullable) to ListScreen
+                id = id,
+                authService = authService // Pass id (nullable) to ListScreen
             )
         }
         composable(route = Listings.route) {
@@ -58,6 +62,7 @@ fun NavHostProvider(
                 modifier = Modifier,
                 paddingValues = paddingValues,
                 navController = navController,
+                authService = authService,
             )
         }
 
@@ -66,6 +71,7 @@ fun NavHostProvider(
                 modifier = Modifier,
                 paddingValues = paddingValues,
                 navController = navController,
+                authService = authService,
             )
         }
 
@@ -79,7 +85,8 @@ fun NavHostProvider(
             if (id != null) {
                 ListingDetailScreen(
                     navController = navController,
-                    modifier = modifier
+                    modifier = modifier,
+                    authService = authService
                 )
             }
         }

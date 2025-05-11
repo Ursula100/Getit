@@ -49,6 +49,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import ie.setu.getit.R
 import ie.setu.getit.ui.component.home.ListingMiniCard
+import ie.setu.getit.ui.component.navigation.ListItem
 import ie.setu.getit.ui.component.navigation.Listings
 import ie.setu.getit.ui.theme.GetitTheme
 
@@ -143,7 +144,15 @@ fun HomeScreen (
                     contentAlignment = Alignment.Center
                 ) {
                     Button(
-                        onClick = {  },
+                        onClick = {
+                            navController.navigate(ListItem.route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        },
                         shape = RoundedCornerShape(12.dp),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xB9000000), // Black with 50% Transparency

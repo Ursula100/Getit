@@ -16,7 +16,7 @@ constructor(
     fun getAll(): Flow<List<ListingModel>>
             = listingDAO.getAll()
 
-    fun getListingsForUser(userId: Int): Flow<List<ListingModel>> {
+    fun getListingsForUser(userId: String): Flow<List<ListingModel>> {
         return listingDAO.getListingsForUser(userId)
     }
 
@@ -41,7 +41,7 @@ constructor(
 
     suspend fun deleteBid(bid: BidModel) { bidDAO.delete(bid) }
 
-    fun getBidsForUser(userId: Int): Flow<List<BidModel>> =
+    fun getBidsForUser(userId: String): Flow<List<BidModel>> =
         bidDAO.getBidsForUser(userId)
 }
 

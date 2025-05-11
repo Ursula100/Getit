@@ -8,4 +8,5 @@ interface AuthService {
     suspend fun registerWithEmailPassword(email: String, password: String, displayName: String): Response<Boolean>
     fun logout()
     fun getCurrentUser(): FirebaseUser?
+    fun getCurrentUserId(): String? = getCurrentUser()?.uid
 }

@@ -25,6 +25,7 @@ import androidx.navigation.compose.rememberNavController
 import ie.setu.getit.R
 import ie.setu.getit.data.model.ListingModel
 import ie.setu.getit.data.model.fakeListings
+import ie.setu.getit.firebase.service.AuthService
 import ie.setu.getit.ui.component.general.Centre
 import ie.setu.getit.ui.component.listings.ListingsList
 import ie.setu.getit.ui.theme.GetitTheme
@@ -34,9 +35,12 @@ fun ListingScreen (
     modifier: Modifier = Modifier,
     listingsViewModel: ListingsViewModel = hiltViewModel(),
     paddingValues: PaddingValues,
-    navController: NavHostController
+    navController: NavHostController,
+    authService: AuthService
 ){
     val listings = listingsViewModel.uiListings.collectAsState().value
+
+    val loggedUserId = authService.getCurrentUserId()!!
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -52,6 +56,7 @@ fun ListingScreen (
                     onDeleteListing = { listing: ListingModel ->
                         listingsViewModel.deleteListing(listing)
                     },
+                    loggedUserId = loggedUserId
                 )
             } else {
                 Centre(Modifier.fillMaxSize()) {
@@ -95,6 +100,7 @@ fun PreviewListingScreen(modifier: Modifier = Modifier,
                     listings = listings,
                     navController = rememberNavController(),
                     onDeleteListing = {},
+                    loggedUserId = "1",
                 )
             }
             else {
