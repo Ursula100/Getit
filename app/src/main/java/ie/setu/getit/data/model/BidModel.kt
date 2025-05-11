@@ -6,9 +6,9 @@ import java.util.*
 
 @Entity
 data class BidModel(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
-    val listingId: Int, // foreign key reference to Listing
+    @PrimaryKey
+    val id: String = UUID.randomUUID().toString(),
+    val listingId: Int, // reference to Listing
     val userId: String,
     val amount: Int,
     val status: BidStatus = BidStatus.PENDING,

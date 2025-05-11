@@ -3,11 +3,12 @@ package ie.setu.getit.data.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.Date
+import java.util.UUID
 
 @Entity(tableName = "listingmodel")
 data class ListingModel(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    @PrimaryKey
+    val id: String = UUID.randomUUID().toString(),
     val uid: String,
     val title: String = "",
     val description: String = "",
@@ -19,7 +20,7 @@ data class ListingModel(
 )
 
 val fakeListings = List(30) { i ->
-    ListingModel(id = 12345 + i,
+    ListingModel(id = (12345 + i).toString(),
         uid = "1",
         "Item $i",
         "N/A",
