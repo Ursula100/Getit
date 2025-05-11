@@ -32,8 +32,14 @@ fun RegisterScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(24.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
+        Text("Register", style = MaterialTheme.typography.headlineMedium)
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         OutlinedTextField(
             value = uiState.name,
             onValueChange = { viewModel.onEvent(RegisterUIEvent.NameChanged(it)) },
@@ -49,7 +55,7 @@ fun RegisterScreen(
             modifier = Modifier.fillMaxWidth()
         )
 
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
             CountryCodeDropdown (
                 selectedCode = uiState.countryCode,
                 onCodeChange = { viewModel.onEvent(RegisterUIEvent.CountryCodeChanged(it)) }
@@ -79,6 +85,8 @@ fun RegisterScreen(
             modifier = Modifier.fillMaxWidth()
         )
 
+        Spacer(modifier = Modifier.height(16.dp))
+
         if (uiState.error != null) {
             Text(uiState.error!!, color = MaterialTheme.colorScheme.error)
         }
@@ -95,6 +103,15 @@ fun RegisterScreen(
 
         if (uiState.isLoading) {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextButton(
+            onClick = { navController.navigate("login") },
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ) {
+            Text("Have an account? Login")
         }
     }
 }
