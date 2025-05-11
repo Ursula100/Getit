@@ -40,7 +40,7 @@ fun ListScreen(
     paddingValues: PaddingValues,
     navController: NavHostController,
     authService: AuthService,
-    id: Int? = null
+    id: String? = null
 ) {
     val context = LocalContext.current
     val listings = listingsViewModel.uiListings.collectAsState().value

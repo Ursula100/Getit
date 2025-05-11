@@ -47,8 +47,8 @@ fun NavHostProvider(
                 authService = authService,
             )
         }
-        composable(route = "${ListItem.route}/{id}", arguments = listOf(navArgument("id") { type = NavType.IntType })) { backStackEntry ->
-            val id = backStackEntry.arguments?.getInt("id")  // Retrieve the id argument
+        composable(route = "${ListItem.route}/{id}", arguments = listOf(navArgument("id") { type = NavType.StringType })) { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("id")  // Retrieve the id argument
             ListScreen(
                 modifier = modifier,
                 paddingValues = paddingValues,
@@ -80,8 +80,8 @@ fun NavHostProvider(
                 modifier = Modifier,
             )
         }
-        composable(route = "${ListingDetail.route}/{id}", arguments = listOf(navArgument("id") { type = NavType.IntType })) { backStackEntry ->
-            val id = backStackEntry.arguments?.getInt("id")
+        composable(route = "${ListingDetail.route}/{id}", arguments = listOf(navArgument("id") { type = NavType.StringType })) { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("id")
             if (id != null) {
                 ListingDetailScreen(
                     navController = navController,
