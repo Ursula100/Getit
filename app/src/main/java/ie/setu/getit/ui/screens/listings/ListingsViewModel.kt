@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @HiltViewModel
 class ListingsViewModel @Inject constructor(
@@ -28,7 +29,9 @@ class ListingsViewModel @Inject constructor(
     private fun getListings() {
         viewModelScope.launch {
             when (val result = firestoreService.getAllListings()) {
-                is Response.Success -> _uiListings.value = result.result
+                is Response.Success -> {
+                    _uiListings.value = result.result
+                }
                 is Response.Failure -> {
                     // Optionally handle error
                     _uiListings.value = emptyList()

@@ -9,7 +9,7 @@ import java.util.UUID
 data class ListingModel(
     @PrimaryKey
     val id: String = UUID.randomUUID().toString(),
-    val uid: String,
+    val uid: String = "",
     val title: String = "",
     val description: String = "",
     val price: Int = 0,

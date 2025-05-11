@@ -8,9 +8,9 @@ import java.util.*
 data class BidModel(
     @PrimaryKey
     val id: String = UUID.randomUUID().toString(),
-    val listingId: String, // reference to Listing
-    val userId: String,
-    val amount: Int,
+    val listingId: String = "", // reference to Listing
+    val userId: String = "",
+    val amount: Int = 1,
     val status: BidStatus = BidStatus.PENDING,
     val bidTime: Date = Date()
 )

@@ -1,5 +1,6 @@
 package ie.setu.getit.ui.screens.listings
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -29,6 +30,7 @@ import ie.setu.getit.firebase.service.AuthService
 import ie.setu.getit.ui.component.general.Centre
 import ie.setu.getit.ui.component.listings.ListingsList
 import ie.setu.getit.ui.theme.GetitTheme
+import timber.log.Timber
 
 @Composable
 fun ListingScreen (
@@ -39,6 +41,8 @@ fun ListingScreen (
     authService: AuthService
 ){
     val listings = listingsViewModel.uiListings.collectAsState().value
+
+    Timber.tag("LISTING SCREEN").d("Listings: $listings")
 
     val loggedUserId = authService.getCurrentUserId()!!
 

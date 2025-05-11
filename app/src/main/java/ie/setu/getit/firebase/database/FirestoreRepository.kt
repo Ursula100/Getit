@@ -1,5 +1,6 @@
 package ie.setu.getit.firebase.database
 
+import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import ie.setu.getit.data.model.BidModel
 import ie.setu.getit.data.model.BidStatus
@@ -7,6 +8,7 @@ import ie.setu.getit.data.model.ListingModel
 import ie.setu.getit.firebase.auth.Response
 import ie.setu.getit.firebase.service.FirestoreService
 import kotlinx.coroutines.tasks.await
+import timber.log.Timber
 import javax.inject.Inject
 
 class FirestoreRepository @Inject constructor(
@@ -32,7 +34,11 @@ class FirestoreRepository @Inject constructor(
     override suspend fun getAllListings(): Response<List<ListingModel>> {
         return try {
             val snapshot = firestore.collection("listings").get().await()
+            for (doc in snapshot.documents) {
+                Timber.tag("LISTING").d(doc.data.toString())
+            }
             val listings = snapshot.toObjects(ListingModel::class.java)
+            Timber.tag("LISTING SCREEN").d("Number of Listings: ${listings.size}")
             Response.Success(listings)
         } catch (e: Exception) {
             Response.Failure(e)
