@@ -48,7 +48,7 @@ object ListingDetail : AppDestination {
     override val label = "View Listing Details"
     override val route = "listing-detail"
 
-    fun withId(id: Int) = "$route/$id"
+    fun withId(id: String) = "$route/$id"
 }
 
 object MyListings : AppDestination {

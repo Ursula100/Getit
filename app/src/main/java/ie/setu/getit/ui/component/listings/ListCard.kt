@@ -40,7 +40,7 @@ import java.util.Date
 
 @Composable
 fun ListCard(
-    id: Int,
+    id: String,
     uid: String,
     title: String,
     description: String,
@@ -138,7 +138,7 @@ fun ShowDeleteAlert(
 fun ListCardPreview() {
     GetitTheme {
         ListCard(
-            id = 12345,
+            id = "12345",
             uid = "1",
             title = "Antique Bread Cutter",
             description = "1860's bread cutter. Cleaned and brought to usable state. Amazing old piece and craftsmanship",
