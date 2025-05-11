@@ -7,38 +7,42 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ie.setu.getit.data.model.ListingModel
 import ie.setu.getit.data.repository.RoomRepository
+import ie.setu.getit.firebase.auth.Response
+import ie.setu.getit.firebase.service.FirestoreService
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ListViewModel @Inject
-constructor(
-    private val repository: RoomRepository,
-    savedStateHandle: SavedStateHandle // to get listing id passed via nav
+class ListViewModel @Inject constructor(
+    private val firestore: FirestoreService,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    // Holds the listing for edit screen
-    var listing = mutableStateOf(ListingModel(uid = "1"))  //placeholder id
+    var listing = mutableStateOf(ListingModel(uid = ""))  // Will be set properly below
 
-    // Get the id from the nav graph
-    val id: Int? = savedStateHandle["id"]
+    val id: String? = savedStateHandle["id"]  // Make sure your routes use String for Firestore IDs
 
     init {
         if (id != null) {
-            // If an id is passed, fetch the existing listing from the repository
             viewModelScope.launch {
-                repository.get(id).collect { existingListing ->
-                    listing.value = existingListing
+                when (val result = firestore.getListingById(id)) {
+                    is Response.Success -> {
+                        listing.value = result.result
+                    }
+                    is Response.Failure -> {
+                        // Optionally log error
+                    }
+                    Response.Loading -> Unit
                 }
             }
         }
     }
 
     fun insert(listing: ListingModel) = viewModelScope.launch {
-        repository.insert(listing)
+        firestore.saveListing(listing)
     }
 
     fun update(listing: ListingModel) = viewModelScope.launch {
-        repository.update(listing)
+        firestore.updateListing(listing)
     }
 }
