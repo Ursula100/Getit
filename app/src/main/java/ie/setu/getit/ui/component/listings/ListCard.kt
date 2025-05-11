@@ -59,15 +59,15 @@ fun ListCard(
             Text(title, fontWeight = FontWeight.Bold, maxLines = 1)
         },
         overlineContent = {
-            Text("id: $id", fontStyle = FontStyle.Italic, color = Color.Gray)
+            // Text("id: $id", fontStyle = FontStyle.Italic, color = Color.Gray)
         },
         supportingContent = {
             Column {
                 Text(description, maxLines = 2, overflow = TextOverflow.Ellipsis)
                 Spacer(Modifier.height(4.dp))
                 Text("€ $price", fontWeight = FontWeight.SemiBold)
-                Spacer(Modifier.height(4.dp))
-                Text(location)
+                // Spacer(Modifier.height(4.dp))
+                // Text(location)
                 Spacer(Modifier.height(4.dp))
                 Text(listedON.toString(), fontStyle = FontStyle.Italic, color = Color.Gray)
             }
