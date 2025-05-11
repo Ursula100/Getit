@@ -10,6 +10,8 @@ interface FirestoreService {
     suspend fun updateListing(listing: ListingModel): Response<Boolean>
     suspend fun getAllListings(): Response<List<ListingModel>>
     suspend fun getListingsForUser(userId: String): Response<List<ListingModel>>
+    suspend fun getListingById(id: String): Response<ListingModel>
+    suspend fun deleteListing(listingId: String): Response<Boolean>
 
     suspend fun saveBid(bid: BidModel): Response<Boolean>
     suspend fun getBidsForListing(listingId: Int): Response<List<BidModel>>

@@ -51,6 +51,29 @@ class FirestoreRepository @Inject constructor(
         }
     }
 
+    override suspend fun getListingById(id: String): Response<ListingModel> {
+        return try {
+            val doc = firestore.collection("listings").document(id).get().await()
+            val listing = doc.toObject(ListingModel::class.java)
+            if (listing != null) {
+                Response.Success(listing)
+            } else {
+                Response.Failure(Exception("Listing not found"))
+            }
+        } catch (e: Exception) {
+            Response.Failure(e)
+        }
+    }
+
+    override suspend fun deleteListing(listingId: String): Response<Boolean> {
+        return try {
+            firestore.collection("listings").document(listingId).delete().await()
+            Response.Success(true)
+        } catch (e: Exception) {
+            Response.Failure(e)
+        }
+    }
+
     override suspend fun saveBid(bid: BidModel): Response<Boolean> {
         return try {
             firestore.collection("bids")
