@@ -15,7 +15,9 @@ import ie.setu.getit.ui.screens.home.HomeScreen
 import ie.setu.getit.ui.screens.list.ListScreen
 import ie.setu.getit.ui.screens.listing_details.ListingDetailScreen
 import ie.setu.getit.ui.screens.listings.ListingScreen
+import ie.setu.getit.ui.screens.login.LoginScreen
 import ie.setu.getit.ui.screens.my_listings.MyListingsScreen
+import ie.setu.getit.ui.screens.register.RegisterScreen
 
 @Composable
 fun NavHostProvider(
@@ -83,6 +85,17 @@ fun NavHostProvider(
         }
         composable(route = Bids.route) {
             BidsScreen(
+                navController = navController,
+            )
+        }
+        composable(route = Login.route) {
+            LoginScreen(
+                navController = navController,
+            )
+        }
+
+        composable(route = Register.route) {
+            RegisterScreen(
                 navController = navController,
             )
         }

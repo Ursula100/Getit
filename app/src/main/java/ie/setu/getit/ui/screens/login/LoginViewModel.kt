@@ -31,7 +31,7 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.value = state.copy(isLoading = true, errorMessage = null)
 
-            val result = authRepository.login(state.email, state.password)
+            val result = authRepository.loginUser(state.email, state.password)
             when (result) {
                 is Response.Success -> _uiState.value = state.copy(isLoading = false, isLoggedIn = true)
                 is Response.Failure -> _uiState.value = state.copy(isLoading = false, errorMessage = result.e.message)

@@ -3,8 +3,8 @@ package ie.setu.getit.ui.screens.register
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ie.setu.getit.firebase.auth.AuthService
 import ie.setu.getit.firebase.auth.Response
+import ie.setu.getit.firebase.service.AuthService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -58,8 +58,18 @@ class RegisterViewModel @Inject constructor(
             )
 
             when (result) {
-                is Response.Success -> _uiState.update { it.copy(success = true, isLoading = false) }
-                is Response.Failure -> _uiState.update { it.copy(error = result.message, isLoading = false) }
+                is Response.Success -> {
+                    _uiState.update { it.copy(success = true, isLoading = false) }
+                }
+
+                is Response.Failure -> {
+                    _uiState.update { it.copy(error = result.toString(), isLoading = false) }
+                }
+
+                is Response.Loading -> {
+                    // Optional: You typically don't get this here, but you must handle it
+                    _uiState.update { it.copy(isLoading = true) }
+                }
             }
         }
     }

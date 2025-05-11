@@ -12,7 +12,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.compose.ui.text.input.KeyboardOptions
+import ie.setu.getit.ui.component.register.CountryCodeDropdown
 
 @Composable
 fun RegisterScreen(
@@ -50,7 +50,7 @@ fun RegisterScreen(
         )
 
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            CountryCodeDropdown(
+            CountryCodeDropdown (
                 selectedCode = uiState.countryCode,
                 onCodeChange = { viewModel.onEvent(RegisterUIEvent.CountryCodeChanged(it)) }
             )

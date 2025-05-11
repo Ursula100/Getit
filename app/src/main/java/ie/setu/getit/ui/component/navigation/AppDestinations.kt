@@ -6,6 +6,8 @@ import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.AttachMoney
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.ui.graphics.vector.ImageVector
 
 interface AppDestination {
@@ -61,6 +63,18 @@ object Bids : AppDestination {
     override val route = "bids"
 }
 
+object Login : AppDestination {
+    override val icon = Icons.Default.Person
+    override val label = "Login"
+    override val route = "login"
+}
+
+object Register : AppDestination {
+    override val icon = Icons.Default.PersonAdd
+    override val label = "Register"
+    override val route = "register"
+}
+
 
 val appNavDrawerDestinations = listOf(Home, Listings, MyListings, ListItem, Bids, About)
-val allDestinations = listOf(Home, Listings, ListItem, About, ListingDetail, Bids, MyListings)
+val allDestinations = listOf(Home, Listings, ListItem, About, ListingDetail, Bids, MyListings, Login, Register)
