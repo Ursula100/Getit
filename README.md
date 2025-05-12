@@ -1,13 +1,46 @@
-# Getit
+# GetIt – Marketplace Android App
 
-## Base App for Item Listings (v1)
+---
 
-This version of the app allows users to **list items** and view all available listings in a clean and straightforward interface. It includes basic **field validation** for item details and offers seamless **navigation** between the listing and creation screens.
+## 📱 Overview
 
-### Features:
-- **List Items**: Add items with a name, description, price, and location.
-- **View Listings**: See all the items you’ve listed in one place.
-- **Navigation**: Switch between screens with smooth transitions.
-- **Validation**: Ensure all fields are filled out correctly before submitting.
+GetIt is a modern Android marketplace app built using **Jetpack Compose**, Firebase, and the MVVM architecture. It allows users to **list items**, **explore products**, and **place bids** using a streamlined UI with Material 3 support.
 
-Get started by listing your first item and exploring the app!
+---
+
+## ✅ Key Features
+
+- **User Authentication** (Email & Password)
+  - Registration collects full name, phone number (with country code), email, and password
+  - Login system with validation
+- **Listing Management**
+  - Users can create, update, or delete listings
+  - Each listing includes: title, description, price, location, categories, and item condition
+- **Bidding System**
+  - Users can place bids on other listings
+  - Top 5 bids are displayed in descending order
+  - Previous top bid is marked as **OUTBID** automatically
+  - Users **cannot** place bids on their own listings
+- **Explore Page**
+  - Home screen shows featured listings (up to 4)
+  - A *Show All* button links to a full listings page
+- **My Listings & Bids**
+  - Logged-in users can see and manage their listings and bids only
+- **Confirmation Dialogs**
+  - Delete confirmation to avoid accidental actions
+- **Dynamic Routing**
+  - All listings link to detail pages using `listing-detail/{id}`
+
+---
+
+## 🧾 Firestore Data Structure
+
+We currently use **two collections**:
+
+1. `listings`
+2. `bids`
+
+Each document contains typed fields and UUIDs as document IDs.
+
+### 📸 Firestore Screenshots (Replace with your own)
+
