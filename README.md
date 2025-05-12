@@ -1,14 +1,13 @@
 # GetIt – Marketplace and Bidding Android App
 
----
 
-## 📱 Overview
+📱 **Overview** 
 
 GetIt is a modern Android marketplace and bidding app built using **Jetpack Compose**, Firebase, and the MVVM architecture. It allows users to **list items**, **explore products**, and **place bids** using a streamlined UI with Material 3 support.
 
 👉 [**Watch Demo Video**](https://youtu.be/MKnF0N4H_xw?si=XR3p9fxxm31ewCEw)  
 
----
+
 
 ## ✅ Key Features
 
@@ -39,7 +38,7 @@ GetIt is a modern Android marketplace and bidding app built using **Jetpack Comp
 - **Dynamic Routing**
   - All listings link to detail pages using `listing-detail/{id}`
 
----
+
 
 ## 🧾 Data Structure
 
@@ -64,7 +63,7 @@ Each document contains typed fields and UUIDs as document IDs.
 
 - **Google Play Services** – linked for proper Firebase use
 
----
+
 
 ## 🧭 Development Approach
 
@@ -106,9 +105,9 @@ Each document contains typed fields and UUIDs as document IDs.
 
 ### 📐 UML & Class Diagrams
 
-**Comming**
+**Coming**
 
----
+
 
 ## 🔮 Future Enhancements
 
@@ -124,7 +123,7 @@ Each document contains typed fields and UUIDs as document IDs.
 
 - Enable dark mode, swipe to delete, and improved validation
 
----
+
 
 ## 💡 What I Learned
 
@@ -142,12 +141,12 @@ Each document contains typed fields and UUIDs as document IDs.
 
 - Best practices for ViewModel and  Hilt
 
----
+
 
 ## 🧑 Personal Reflection
 Working on GetIt helped me grow confidence in building full-stack Android apps. I learned how to write composable UIs, manage state reactively, and work with Firebase securely. I now understand the importance of separation of concerns and following clean architecture. It was also the first time I built a complete flow from login to CRUD in Firestore, and it was incredibly rewarding.
 
----
+
 
 ## 📚 References
 
