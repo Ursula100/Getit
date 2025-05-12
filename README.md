@@ -68,25 +68,7 @@ Each document contains typed fields and UUIDs as document IDs.
 
 ## 🖥️ Screens Implemented
 
-- LoginScreen
 
-- RegisterScreen
-
-- HomeScreen
-
-- ListingScreen
-
-- MyListingsScreen
-
-- ListScreen (Add/Edit Listing)
-
-- ListingDetailScreen
-
-- BidsScreen
-
-- AboutScreen
-
-🔍 Screenshots
 <p float="left">
   <img src="screenshots/home.png" width="30%" />
   <img src="screenshots/listing-detail.png" width="30%" />
