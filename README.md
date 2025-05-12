@@ -70,15 +70,10 @@ Each document contains typed fields and UUIDs as document IDs.
 
 
 <p float="left">
-  <img src="screenshots/home.png" width="30%" />
+  <img src=""C:\Users\tamen\Downloads\getit\home.jpg"" width="30%" />
   <img src="screenshots/listing-detail.png" width="30%" />
   <img src="screenshots/my-listings.png" width="30%" />
 </p>
-
----
-
-## 🔗 Download Report PDF
-[📄 Download Full Report](https://github.com/your-username/GetIt/raw/main/docs/FinalReport.pdf)
 
 ---
 
