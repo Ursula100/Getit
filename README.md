@@ -160,17 +160,17 @@ Working on GetIt helped me grow confidence in building full-stack Android apps. 
 
 
 <p float="left">
-  <img src="\home.jpg" width="25%" />
-  <img src="\navbar.jpg" width="25%" />
-  <img src="/explore.jpg" width="25%" />
-  <img src="/mybids.jpg" width="25%" />
+  <img src="\home.jpg" width="22%" />
+  <img src="\navbar.jpg" width="22%" />
+  <img src="/explore.jpg" width="22%" />
+  <img src="/mybids.jpg" width="22%" />
 </p>
 
 <p float="left">
-  <img src="\empty my listings.jpg" width="25%" />
-  <img src="\list item.jpg" width="25%" />
-  <img src="\my listings.jpg" width="25%" />
-  <img src="/view listing.jpg" width="25%" />
+  <img src="\empty my listings.jpg" width="22%" />
+  <img src="\list item.jpg" width="22%" />
+  <img src="\my listings.jpg" width="22%" />
+  <img src="/view listing.jpg" width="22%" />
 </p>
 
 ---
