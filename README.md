@@ -66,17 +66,6 @@ Each document contains typed fields and UUIDs as document IDs.
 
 ---
 
-## 🖥️ Screens Implemented
-
-
-<p float="left">
-  <img src=""C:\Users\tamen\Downloads\getit\home.jpg"" width="30%" />
-  <img src="screenshots/listing-detail.png" width="30%" />
-  <img src="screenshots/my-listings.png" width="30%" />
-</p>
-
----
-
 ## 🧭 Development Approach
 
 ### Architecture
@@ -166,6 +155,23 @@ Working on GetIt helped me grow confidence in building full-stack Android apps. 
 - [Firebase for Androidn](https://firebase.google.com/docs/android/setup)
 - [Firebase Authentication using MVVM in Jetpack Compose](https://www.simplifiedcoding.net/firebase-authentication-using-mvvm/)
 - [Firebase Authentication in Jetpack Compose - Part 1](https://medium.com/@marwa.diab/firebase-authentication-in-jetpack-compose-part-1-73cb79d3e744)
+
+---
+
+
+<p float="left">
+  <img src="\home.jpg" width="25%" />
+  <img src="\navbar.jpg" width="25%" />
+  <img src="/explore.jpg" width="25%" />
+  <img src="/mybids.jpg" width="25%" />
+</p>
+
+<p float="left">
+  <img src="\empty my listings.jpg" width="25%" />
+  <img src="\list item.jpg" width="25%" />
+  <img src="\my listings.jpg" width="25%" />
+  <img src="/view listing.jpg" width="25%" />
+</p>
 
 ---
 
