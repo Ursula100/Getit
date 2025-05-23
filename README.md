@@ -1,7 +1,10 @@
 # GetIt – Marketplace and Bidding Android App
 
+<img src="\getit_banner.png" width="75%" />
 
-📱 **Overview** 
+----------------------------------------------
+
+## 📱 Overview 
 
 GetIt is a modern Android marketplace and bidding app built using **Jetpack Compose**, Firebase, and the MVVM architecture. It allows users to **list items**, **explore products**, and **place bids** using a streamlined UI with Material 3 support.
 
